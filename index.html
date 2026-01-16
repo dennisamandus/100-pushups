@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="sv">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
@@ -19,6 +19,7 @@
 
       --btn:#1a1e2a;
       --btn2:#0f1118;
+      --soft: rgba(255,255,255,0.06);
     }
 
     *{ box-sizing:border-box; }
@@ -32,165 +33,158 @@
       -moz-osx-font-smoothing: grayscale;
     }
 
-    /* Header */
-    .top{
-      padding: 14px 14px 10px;
-      max-width: 980px;
-      margin: 0 auto;
+    /* ===== Loading screen ===== */
+    .loading{
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      z-index: 9999;
+      transition: opacity 420ms ease, visibility 420ms ease;
     }
-    .title{
+    .loading.hidden{
+      opacity: 0;
+      visibility: hidden;
+    }
+    .loadingCard{
+      width: min(560px, calc(100vw - 32px));
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      background:
+        radial-gradient(900px 420px at 50% 0%, rgba(255,255,255,0.07), transparent 60%),
+        var(--panel);
+      padding: 18px;
+      text-align:center;
+      overflow:hidden;
+      position: relative;
+    }
+    .loadingTitle{
       font-weight: 1000;
       letter-spacing: 0.9px;
       text-transform: uppercase;
-      font-size: 20px;
-      line-height: 1.15;
+      font-size: 18px;
+      line-height: 1.2;
     }
-    .subtitle{
-      margin-top: 6px;
-      color: var(--muted);
-      font-size: 13px;
+    .loadingCount{
+      margin-top: 14px;
+      font-variant-numeric: tabular-nums;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 52px;
+      font-weight: 1000;
+      letter-spacing: 0.5px;
+      opacity: 0.95;
+    }
+    .dots{
+      margin-top: 12px;
+      display:flex;
+      justify-content:center;
+      gap: 8px;
+    }
+    .dot{
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.20);
+      animation: pulse 900ms ease-in-out infinite;
+    }
+    .dot:nth-child(2){ animation-delay: 120ms; }
+    .dot:nth-child(3){ animation-delay: 240ms; }
+    @keyframes pulse{
+      0%,100%{ transform: translateY(0); opacity: 0.35; }
+      50%{ transform: translateY(-4px); opacity: 0.95; }
+    }
+    .shine{
+      position:absolute;
+      inset: -40% -60%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+      transform: rotate(12deg);
+      animation: sweep 1400ms ease-in-out infinite;
+      pointer-events:none;
+    }
+    @keyframes sweep{
+      0%{ transform: translateX(-20%) rotate(12deg); opacity: 0; }
+      20%{ opacity: 1; }
+      100%{ transform: translateX(20%) rotate(12deg); opacity: 0; }
     }
 
-    /* Main layout */
+    /* ===== Layout ===== */
     .wrap{
       max-width: 980px;
       margin: 0 auto;
-      padding: 0 14px 18px;
-      display: grid;
+      padding: 14px 14px 22px;
+      display:grid;
       gap: 12px;
     }
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+    @media (min-width: 860px){
+      .grid{ grid-template-columns: 1.05fr 1fr; align-items:start; }
+    }
+    .card{
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      background:
+        radial-gradient(1200px 600px at 50% 0%, rgba(255,255,255,0.06), transparent 60%),
+        var(--panel);
+      padding: 14px;
+    }
 
-    /* Tap area (like simplecounter) */
+    /* ===== Block 1: Counter ===== */
     .tapArea{
       position: relative;
       overflow: hidden;
-      border-radius: 18px;
+      border-radius: 16px;
       border: 1px solid var(--border);
-      background: radial-gradient(1200px 600px at 50% 0%, rgba(255,255,255,0.06), transparent 60%),
-                  var(--panel);
-      padding: 18px 14px 14px;
-      min-height: 250px;
-      display: grid;
-      align-content: center;
-      justify-items: center;
+      background: rgba(15,17,24,0.60);
+      padding: 14px;
       user-select:none;
       -webkit-user-select:none;
       touch-action: manipulation;
     }
-
+    .topLabel{
+      text-align:center;
+      font-weight: 1000;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-size: 13px;
+      color: var(--muted);
+    }
     .big{
+      margin-top: 10px;
+      text-align:center;
       font-variant-numeric: tabular-nums;
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-      font-size: clamp(64px, 15vw, 110px);
+      font-size: clamp(80px, 17vw, 124px);
       font-weight: 1000;
-      letter-spacing: 0.5px;
       line-height: 1;
-      text-align:center;
+      letter-spacing: 0.5px;
     }
-    .bigLabel{
-      margin-top: 8px;
-      color: var(--muted);
-      font-size: 13px;
-      text-align:center;
-    }
-
-    .statusRow{
-      margin-top: 14px;
+    .metaRow{
+      margin-top: 12px;
       display:flex;
-      gap:10px;
       flex-wrap:wrap;
       justify-content:center;
+      gap: 8px;
     }
     .pill{
       display:inline-flex;
-      gap:8px;
       align-items:center;
+      gap:8px;
       padding: 8px 10px;
       border-radius: 999px;
       border: 1px solid var(--border);
-      background: rgba(15,17,24,0.7);
-      font-size: 13px;
+      background: rgba(255,255,255,0.04);
       color: var(--muted);
+      font-size: 13px;
       white-space: nowrap;
     }
-    .dot{
-      width:10px;height:10px;border-radius:50%;
-      background: var(--gray);
-      display:inline-block;
-      flex: 0 0 auto;
-    }
-    .dot.green{ background: var(--green); }
-    .dot.orange{ background: var(--orange); }
-    .dot.red{ background: var(--red); }
-    .dot.gray{ background: var(--gray); }
 
-    /* Controls */
-    .controls{
-      border-radius: 18px;
-      border: 1px solid var(--border);
-      background: var(--panel);
-      padding: 12px;
-      display:grid;
-      gap: 10px;
-    }
-    .row{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      align-items:center;
-      justify-content: space-between;
-    }
-    button, input{
-      font: inherit;
-      border-radius: 14px;
-      border: 1px solid var(--border);
-      padding: 12px 12px;
-      background: var(--btn2);
-      color: var(--text);
-      outline: none;
-    }
-    button{
-      cursor:pointer;
-      background: var(--btn);
-      font-weight: 900;
-      touch-action: manipulation;
-    }
-    button:hover{ filter: brightness(1.08); }
-    button:active{ transform: translateY(1px); }
-
-    button.ghost{ background: transparent; }
-    button.danger{ background:#2a1212; border-color:#4a1b1b; }
-    button.good{ background:#102316; border-color:#234b33; }
-
-    .stepGrid{
-      display:grid;
-      grid-template-columns: repeat(6, minmax(0, 1fr));
-      gap: 8px;
-    }
-    .stepBtn{
-      padding: 12px 8px;
-      border-radius: 16px;
-      font-weight: 1000;
-      background: transparent;
-    }
-    .stepBtn.active{
-      background: rgba(255,255,255,0.06);
-      border-color: rgba(255,255,255,0.15);
-    }
-
-    .manualRow{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap:10px;
-    }
-    @media (min-width: 860px){
-      .wrap{ grid-template-columns: 1.05fr 1fr; align-items:start; }
-      .manualRow{ grid-template-columns: 1fr auto; }
-      input{ width: 220px; }
-    }
-    input{ width: 100%; background: var(--btn2); }
-
-    /* Ripple */
+    /* Ripple on tap */
     .ripple{
       position:absolute;
       border-radius: 999px;
@@ -205,27 +199,124 @@
       to{ width: 520px; height: 520px; opacity: 0; }
     }
 
-    /* Calendar */
-    .calCard{
-      border-radius: 18px;
-      border: 1px solid var(--border);
-      background: var(--panel);
-      padding: 12px;
+    .controls{
+      margin-top: 12px;
+      display:grid;
+      gap: 10px;
     }
+    .sectionLabel{
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: 0.2px;
+      margin-left: 2px;
+    }
+    .stepGrid{
+      display:grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 8px;
+    }
+    button, input{
+      font: inherit;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      padding: 12px 12px;
+      background: var(--btn2);
+      color: var(--text);
+      outline: none;
+    }
+    button{
+      cursor:pointer;
+      background: var(--btn);
+      font-weight: 950;
+      touch-action: manipulation;
+    }
+    button:hover{ filter: brightness(1.08); }
+    button:active{ transform: translateY(1px); }
+
+    .stepBtn{
+      padding: 12px 8px;
+      border-radius: 16px;
+      background: transparent;
+      font-weight: 1000;
+    }
+    .stepBtn.active{
+      background: var(--soft);
+      border-color: rgba(255,255,255,0.18);
+    }
+
+    .row{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+    .row > *{ flex: 1; }
+
+    .btnGood{ background:#102316; border-color:#234b33; }
+    .btnGhost{ background: transparent; }
+    .btnDanger{ background:#2a1212; border-color:#4a1b1b; }
+
+    input{ width: 100%; }
+    @media (min-width: 860px){
+      .row > input{ flex: 2; }
+      .row > button{ flex: 1; }
+    }
+
+    /* ===== Block 2: Pep + progress + calendar ===== */
+    .pep{
+      font-weight: 1000;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      font-size: 13px;
+      color: var(--muted);
+      text-align:center;
+      margin-bottom: 10px;
+    }
+    .progressBig{
+      text-align:center;
+      font-weight: 1000;
+      font-size: 46px;
+      letter-spacing: 0.2px;
+      line-height: 1.05;
+    }
+    .progressSub{
+      text-align:center;
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 6px;
+    }
+    .bar{
+      margin: 14px 6px 2px;
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border);
+      overflow:hidden;
+    }
+    .bar > div{
+      height:100%;
+      width: 0%;
+      background: rgba(31,138,76,0.85);
+      transition: width 250ms ease;
+    }
+
+    /* Calendar */
     .calHead{
+      margin-top: 14px;
       display:flex;
       justify-content: space-between;
       align-items:center;
       gap:10px;
-      margin-bottom: 8px;
     }
     .calTitle{
       font-weight: 1000;
-      letter-spacing: 0.2px;
       font-size: 15px;
+      letter-spacing: 0.2px;
     }
     .calBtns{ display:flex; gap:8px; }
+
     .cal{
+      margin-top: 8px;
       display:grid;
       grid-template-columns: repeat(7, minmax(0, 1fr));
       gap: 6px;
@@ -268,52 +359,39 @@
     .day.red{ border-color: rgba(161,50,50,0.70); }
     .day.orange{ border-color: rgba(199,125,26,0.80); }
     .day.green{ border-color: rgba(31,138,76,0.80); }
-
-    .legend{
-      margin-top: 10px;
-      display:flex;
-      gap:10px;
-      flex-wrap: wrap;
-    }
-
-    /* Tiny footer text */
-    .tiny{
-      color: var(--muted);
-      font-size: 12px;
-      text-align:center;
-      padding: 8px 0 0;
-    }
   </style>
 </head>
+
 <body>
-  <div class="top">
-    <div class="title">100 PUSHUPS A-DAY KEEP DA DOCTOR A-WAY</div>
-    <div class="subtitle">Tryck på ytan för att logga. Mål: <b>100</b>/dag.</div>
+  <!-- Loading screen -->
+  <div class="loading" id="loading">
+    <div class="loadingCard">
+      <div class="shine"></div>
+      <div class="loadingTitle">100 PUSHUPS A-DAY KEEP DA DOCTOR A-WAY</div>
+      <div class="loadingCount" id="loadingCount">0</div>
+      <div class="dots" aria-label="Loading">
+        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      </div>
+    </div>
   </div>
 
   <div class="wrap">
-    <!-- Tap counter -->
-    <div>
-      <div class="tapArea" id="tapArea" aria-label="Tryck för att logga">
-        <div class="big" id="todayTotal">0</div>
-        <div class="bigLabel">GJORT IDAG</div>
+    <div class="grid">
+      <!-- Block 1 -->
+      <div class="card">
+        <div class="tapArea" id="tapArea" aria-label="Tap to add">
+          <div class="topLabel">LET’S GO!</div>
+          <div class="big" id="todayTotal">0</div>
 
-        <div class="statusRow">
-          <span class="pill"><span id="statusDot" class="dot"></span><span id="statusText">—</span></span>
-          <span class="pill">Kvar: <span id="todayLeft">100</span></span>
-          <span class="pill">Step: <span id="stepText">10</span></span>
-        </div>
-      </div>
-
-      <div class="controls" style="margin-top:12px;">
-        <div class="row">
-          <div class="pill">Streak: <span id="streak">0</span></div>
-          <div class="pill">30 dagar: <span id="statsText">—</span></div>
+          <div class="metaRow">
+            <span class="pill">LEFT: <span id="todayLeft">100</span></span>
+            <span class="pill">STREAK: <span id="streakTop">0</span></span>
+          </div>
         </div>
 
-        <div>
-          <div style="color:var(--muted); font-size:12px; margin: 0 0 8px 2px;">Välj hur mycket varje tryck ska logga:</div>
-          <div class="stepGrid" id="stepGrid">
+        <div class="controls">
+          <div class="sectionLabel">STEP (tap adds this amount)</div>
+          <div class="stepGrid" id="stepGrid" aria-label="Step">
             <button class="stepBtn" data-step="1">1</button>
             <button class="stepBtn" data-step="5">5</button>
             <button class="stepBtn" data-step="10">10</button>
@@ -321,54 +399,52 @@
             <button class="stepBtn" data-step="20">20</button>
             <button class="stepBtn" data-step="25">25</button>
           </div>
-        </div>
 
-        <div class="manualRow">
-          <input id="addInput" type="number" inputmode="numeric" min="1" placeholder="Eget antal (t.ex. 12)" />
-          <button id="addBtn" class="good">Lägg till</button>
-        </div>
+          <div class="row">
+            <input id="addInput" type="number" inputmode="numeric" min="1" placeholder="Custom amount (e.g. 12)" />
+            <button id="addBtn" class="btnGood">Add</button>
+          </div>
 
-        <div class="row">
-          <button id="undoBtn" class="ghost" style="flex:1;">Ångra senaste</button>
-          <button id="resetTodayBtn" class="danger" style="flex:1;">Nollställ idag</button>
-        </div>
-
-        <div class="tiny">Tips: Du kan bara trycka på stora ytan mellan set – ingen precisionsklick behövs.</div>
-      </div>
-    </div>
-
-    <!-- Calendar -->
-    <div class="calCard">
-      <div class="calHead">
-        <div class="calTitle" id="calTitle">—</div>
-        <div class="calBtns">
-          <button id="prevMonthBtn" class="ghost" aria-label="Föregående månad">◀</button>
-          <button id="todayBtn" class="ghost">Idag</button>
-          <button id="nextMonthBtn" class="ghost" aria-label="Nästa månad">▶</button>
+          <div class="row">
+            <button id="undoBtn" class="btnGhost">Undo last</button>
+            <button id="resetTodayBtn" class="btnDanger">Reset today</button>
+          </div>
         </div>
       </div>
 
-      <div class="cal" id="calGrid"></div>
+      <!-- Block 2 -->
+      <div class="card">
+        <div class="pep">KEEP GOING</div>
+        <div class="progressBig" id="progressBig">0%</div>
+        <div class="progressSub">STREAK: <span id="streakBottom">0</span></div>
 
-      <div class="legend">
-        <span class="pill"><span class="dot green"></span>Grön = klarat</span>
-        <span class="pill"><span class="dot orange"></span>Orange = påbörjat</span>
-        <span class="pill"><span class="dot red"></span>Röd = missad (0 efter start)</span>
-        <span class="pill"><span class="dot gray"></span>Grå = innan du började</span>
+        <div class="bar"><div id="barFill"></div></div>
+
+        <div class="calHead">
+          <div class="calTitle" id="calTitle">—</div>
+          <div class="calBtns">
+            <button id="prevMonthBtn" class="btnGhost" aria-label="Previous month">◀</button>
+            <button id="todayBtn" class="btnGhost">Today</button>
+            <button id="nextMonthBtn" class="btnGhost" aria-label="Next month">▶</button>
+          </div>
+        </div>
+
+        <div class="cal" id="calGrid"></div>
       </div>
     </div>
   </div>
 
   <script>
+    // Fixed goal
     const GOAL = 100;
 
-    // Keep your current device data (same key as your latest versions)
+    // Keep your existing device data
     const STORAGE_KEY = "pushups_simple_v2";
 
     // Helpers
     const pad2 = (n) => String(n).padStart(2, "0");
     const toISODateLocal = (d) => `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`;
-    const monthNameSV = (m) => ["Januari","Februari","Mars","April","Maj","Juni","Juli","Augusti","September","Oktober","November","December"][m];
+    const monthName = (m) => ["January","February","March","April","May","June","July","August","September","October","November","December"][m];
 
     function defaultState(){
       return { days: {}, step: 10 };
@@ -382,6 +458,7 @@
         if(!parsed || typeof parsed !== "object") return defaultState();
         if(!parsed.days || typeof parsed.days !== "object") parsed.days = {};
         if(typeof parsed.step !== "number" || parsed.step <= 0) parsed.step = 10;
+
         for(const k of Object.keys(parsed.days)){
           const day = parsed.days[k];
           if(!day || typeof day !== "object") { delete parsed.days[k]; continue; }
@@ -408,14 +485,17 @@
     let currentMonth = new Date(); currentMonth.setDate(1);
 
     // DOM
+    const loading = document.getElementById("loading");
+    const loadingCount = document.getElementById("loadingCount");
+
     const tapArea = document.getElementById("tapArea");
     const todayTotalEl = document.getElementById("todayTotal");
     const todayLeftEl = document.getElementById("todayLeft");
-    const statusDot = document.getElementById("statusDot");
-    const statusText = document.getElementById("statusText");
-    const streakEl = document.getElementById("streak");
-    const statsTextEl = document.getElementById("statsText");
-    const stepText = document.getElementById("stepText");
+    const streakTop = document.getElementById("streakTop");
+    const streakBottom = document.getElementById("streakBottom");
+
+    const progressBig = document.getElementById("progressBig");
+    const barFill = document.getElementById("barFill");
 
     const stepGrid = document.getElementById("stepGrid");
     const addInput = document.getElementById("addInput");
@@ -435,7 +515,6 @@
       keys.sort();
       return keys[0];
     }
-
     function getDayTotal(iso){ return state.days[iso]?.total ?? 0; }
 
     function getDayStatus(iso, total, firstISO){
@@ -447,36 +526,16 @@
     }
 
     function calcStreak(){
-      let streak = 0;
+      let s = 0;
       const d = new Date();
       while(true){
         const iso = toISODateLocal(d);
         if(getDayTotal(iso) >= GOAL){
-          streak++;
+          s++;
           d.setDate(d.getDate()-1);
         }else break;
       }
-      return streak;
-    }
-
-    function calc30DayStats(){
-      const today = new Date();
-      const firstISO = getFirstLoggedISO();
-      let green=0, orange=0, red=0, gray=0, sum=0;
-
-      for(let i=0;i<30;i++){
-        const d = new Date(today);
-        d.setDate(today.getDate()-i);
-        const iso = toISODateLocal(d);
-        const total = getDayTotal(iso);
-        const st = getDayStatus(iso, total, firstISO);
-        if(st === "gray"){ gray++; continue; }
-        sum += total;
-        if(st === "green") green++;
-        else if(st === "orange") orange++;
-        else red++;
-      }
-      return { green, orange, red, gray, sum };
+      return s;
     }
 
     function setStep(n){
@@ -486,8 +545,7 @@
     }
 
     function renderStepUI(){
-      stepText.textContent = state.step;
-      stepGrid.querySelectorAll("button").forEach(b => {
+      stepGrid.querySelectorAll("button[data-step]").forEach(b => {
         b.classList.toggle("active", Number(b.dataset.step) === state.step);
       });
     }
@@ -502,9 +560,7 @@
     }
 
     function maybeVibrate(){
-      try{
-        if(navigator.vibrate) navigator.vibrate(10);
-      }catch{}
+      try{ if(navigator.vibrate) navigator.vibrate(10); } catch{}
     }
 
     function addReps(n){
@@ -544,28 +600,22 @@
       todayTotalEl.textContent = total;
       todayLeftEl.textContent = Math.max(0, GOAL - total);
 
-      const firstISO = getFirstLoggedISO();
-      const st = getDayStatus(iso, total, firstISO);
-      statusDot.className = "dot " + st;
-      statusText.textContent =
-        st === "green" ? "Klar ✅" :
-        st === "orange" ? "Påbörjad" :
-        st === "red" ? "Missad (0)" :
-        "Inte börjat än";
+      const streak = calcStreak();
+      streakTop.textContent = streak;
+      streakBottom.textContent = streak;
 
-      streakEl.textContent = calcStreak();
-
-      const s = calc30DayStats();
-      statsTextEl.textContent = `🟩 ${s.green}  🟧 ${s.orange}  🟥 ${s.red}  🩶 ${s.gray}  •  Totalt: ${s.sum}`;
+      const pct = Math.max(0, Math.min(100, Math.round((total / GOAL) * 100)));
+      progressBig.textContent = `${pct}%`;
+      barFill.style.width = `${pct}%`;
     }
 
     function renderCalendar(){
       const y = currentMonth.getFullYear();
       const m = currentMonth.getMonth();
-      calTitle.textContent = `${monthNameSV(m)} ${y}`;
+      calTitle.textContent = `${monthName(m)} ${y}`;
       calGrid.innerHTML = "";
 
-      const dows = ["Mån","Tis","Ons","Tor","Fre","Lör","Sön"];
+      const dows = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
       for(const d of dows){
         const el = document.createElement("div");
         el.className = "dow";
@@ -575,7 +625,7 @@
 
       const firstISO = getFirstLoggedISO();
       const first = new Date(y, m, 1);
-      const firstDow = (first.getDay() + 6) % 7;
+      const firstDow = (first.getDay() + 6) % 7; // Monday=0
       const daysInMonth = new Date(y, m + 1, 0).getDate();
 
       for(let i=0;i<firstDow;i++){
@@ -598,16 +648,9 @@
           <div class="dayval">${total ? total : ""}</div>
         `;
 
+        // Simple: tap a day to reset
         cell.addEventListener("click", () => {
-          const label =
-            st === "gray" ? "Innan du började" :
-            st === "red" ? "Missad (0)" :
-            st === "orange" ? "Påbörjad" : "Klar";
-
-          const msg =
-            `${iso}\nStatus: ${label}\nTotalt: ${total}\n\nOK = nollställ den här dagen\nAvbryt = lämna som det är`;
-
-          if(confirm(msg)){
+          if(confirm(`Reset ${iso}?`)){
             delete state.days[iso];
             saveState();
             renderAll();
@@ -626,7 +669,6 @@
 
     // Events
     tapArea.addEventListener("pointerdown", (e) => {
-      // ignore if user is selecting text etc.
       const rect = tapArea.getBoundingClientRect();
       rippleAt(e.clientX - rect.left, e.clientY - rect.top);
       maybeVibrate();
@@ -651,7 +693,7 @@
 
     undoBtn.addEventListener("click", undoLast);
     resetTodayBtn.addEventListener("click", () => {
-      if(confirm("Nollställa dagens logg?")) resetToday();
+      if(confirm("Reset today?")) resetToday();
     });
 
     prevMonthBtn.addEventListener("click", () => {
@@ -667,7 +709,26 @@
       renderAll();
     });
 
+    // Init
     renderAll();
+
+    // Loading animation: count 0 -> 100, then fade
+    function runLoading(){
+      const durationMs = 650;
+      const start = performance.now();
+
+      function tick(now){
+        const t = Math.min(1, (now - start) / durationMs);
+        const eased = 1 - Math.pow(1 - t, 3);
+        loadingCount.textContent = Math.round(eased * 100);
+        if(t < 1) requestAnimationFrame(tick);
+      }
+
+      requestAnimationFrame(tick);
+      setTimeout(() => loading.classList.add("hidden"), 900);
+    }
+
+    window.addEventListener("load", runLoading);
   </script>
 </body>
 </html>
