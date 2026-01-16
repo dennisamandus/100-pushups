@@ -7,7 +7,7 @@
   <style>
     :root{
       --bg:#0b0c10;
-      --card:#14161d;
+      --panel:#14161d;
       --text:#e8e8ea;
       --muted:#a8abb6;
       --border:#2a2d38;
@@ -22,93 +22,85 @@
     }
 
     *{ box-sizing:border-box; }
+    html, body{ height:100%; }
     body{
       margin:0;
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       background:var(--bg);
       color:var(--text);
-      line-height:1.35;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
 
-    .wrap{
+    /* Header */
+    .top{
+      padding: 14px 14px 10px;
       max-width: 980px;
       margin: 0 auto;
-      padding: 14px 14px 22px;
-      display: grid;
-      gap: 12px;
     }
-
-    .card{
-      background:var(--card);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 14px;
-    }
-
-    /* Big header */
-    h1{
-      margin: 0;
-      font-size: 22px;
-      font-weight: 950;
+    .title{
+      font-weight: 1000;
       letter-spacing: 0.9px;
       text-transform: uppercase;
+      font-size: 20px;
+      line-height: 1.15;
     }
-    .sub{
-      margin-top: 8px;
+    .subtitle{
+      margin-top: 6px;
       color: var(--muted);
       font-size: 13px;
     }
 
-    h2{
-      margin: 0 0 10px 0;
-      font-size: 15px;
-      font-weight: 900;
-      letter-spacing: 0.2px;
+    /* Main layout */
+    .wrap{
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 0 14px 18px;
+      display: grid;
+      gap: 12px;
     }
 
-    .row{
+    /* Tap area (like simplecounter) */
+    .tapArea{
+      position: relative;
+      overflow: hidden;
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      background: radial-gradient(1200px 600px at 50% 0%, rgba(255,255,255,0.06), transparent 60%),
+                  var(--panel);
+      padding: 18px 14px 14px;
+      min-height: 250px;
+      display: grid;
+      align-content: center;
+      justify-items: center;
+      user-select:none;
+      -webkit-user-select:none;
+      touch-action: manipulation;
+    }
+
+    .big{
+      font-variant-numeric: tabular-nums;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: clamp(64px, 15vw, 110px);
+      font-weight: 1000;
+      letter-spacing: 0.5px;
+      line-height: 1;
+      text-align:center;
+    }
+    .bigLabel{
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 13px;
+      text-align:center;
+    }
+
+    .statusRow{
+      margin-top: 14px;
       display:flex;
       gap:10px;
       flex-wrap:wrap;
-      align-items:center;
+      justify-content:center;
     }
-
-    input, button{
-      font: inherit;
-      padding: 12px 12px;
-      border-radius: 14px;
-      border: 1px solid var(--border);
-      background: var(--btn2);
-      color: var(--text);
-      outline: none;
-    }
-    input{ width: 100%; }
-
-    button{
-      cursor: pointer;
-      background: var(--btn);
-      touch-action: manipulation;
-      font-weight: 850;
-    }
-    button:hover{ filter: brightness(1.08); }
-    button:active{ transform: translateY(1px); }
-
-    button.ghost{ background: transparent; }
-    button.danger{ background: #2a1212; border-color:#4a1b1b; }
-    button.good{ background: #102316; border-color:#234b33; }
-
-    .grid{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap: 12px;
-    }
-    @media (min-width: 860px){
-      .grid{ grid-template-columns: 1.1fr 1fr; }
-      input{ width: 200px; }
-    }
-
     .pill{
       display:inline-flex;
       gap:8px;
@@ -116,17 +108,11 @@
       padding: 8px 10px;
       border-radius: 999px;
       border: 1px solid var(--border);
-      background: #0f1118;
+      background: rgba(15,17,24,0.7);
       font-size: 13px;
       color: var(--muted);
       white-space: nowrap;
     }
-
-    .mono{
-      font-variant-numeric: tabular-nums;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-    }
-
     .dot{
       width:10px;height:10px;border-radius:50%;
       background: var(--gray);
@@ -138,90 +124,111 @@
     .dot.red{ background: var(--red); }
     .dot.gray{ background: var(--gray); }
 
-    /* Make "Gjort idag" BIGGER */
-    .big{
-      font-size: 60px;
-      font-weight: 1000;
-      letter-spacing: 0.5px;
-      line-height: 1;
-    }
-    @media (min-width: 860px){
-      .big{ font-size: 72px; }
-    }
-    .bigsub{
-      margin-top: 6px;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    /* Quick buttons */
-    .quick{
+    /* Controls */
+    .controls{
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      background: var(--panel);
+      padding: 12px;
       display:grid;
-      grid-template-columns: repeat(5, 1fr);
       gap: 10px;
-      margin-top: 12px;
     }
-    .quick button{
-      padding: 14px 10px;
+    .row{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content: space-between;
+    }
+    button, input{
+      font: inherit;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      padding: 12px 12px;
+      background: var(--btn2);
+      color: var(--text);
+      outline: none;
+    }
+    button{
+      cursor:pointer;
+      background: var(--btn);
+      font-weight: 900;
+      touch-action: manipulation;
+    }
+    button:hover{ filter: brightness(1.08); }
+    button:active{ transform: translateY(1px); }
+
+    button.ghost{ background: transparent; }
+    button.danger{ background:#2a1212; border-color:#4a1b1b; }
+    button.good{ background:#102316; border-color:#234b33; }
+
+    .stepGrid{
+      display:grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 8px;
+    }
+    .stepBtn{
+      padding: 12px 8px;
       border-radius: 16px;
       font-weight: 1000;
+      background: transparent;
+    }
+    .stepBtn.active{
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.15);
     }
 
-    /* Log list */
-    .loglist{
-      margin-top: 12px;
-      display:flex;
-      flex-direction: column;
-      gap:8px;
-      max-height: 260px;
-      overflow:auto;
-      padding-right: 4px;
-    }
-    .logitem{
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 10px 12px;
-      background: #0f1118;
-      display:flex;
-      justify-content: space-between;
-      gap:10px;
-      align-items:center;
-    }
-
-    .divider{
-      height:1px;
-      background: var(--border);
-      margin: 12px 0;
-    }
-
-    .two{
+    .manualRow{
       display:grid;
       grid-template-columns: 1fr;
       gap:10px;
     }
     @media (min-width: 860px){
-      .two{ grid-template-columns: 1fr 1fr; }
+      .wrap{ grid-template-columns: 1.05fr 1fr; align-items:start; }
+      .manualRow{ grid-template-columns: 1fr auto; }
+      input{ width: 220px; }
+    }
+    input{ width: 100%; background: var(--btn2); }
+
+    /* Ripple */
+    .ripple{
+      position:absolute;
+      border-radius: 999px;
+      transform: translate(-50%,-50%);
+      pointer-events:none;
+      background: rgba(255,255,255,0.10);
+      animation: ripple 520ms ease-out forwards;
+      mix-blend-mode: screen;
+    }
+    @keyframes ripple{
+      from{ width: 0; height: 0; opacity: 0.55; }
+      to{ width: 520px; height: 520px; opacity: 0; }
     }
 
     /* Calendar */
-    .cal-head{
+    .calCard{
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      background: var(--panel);
+      padding: 12px;
+    }
+    .calHead{
       display:flex;
       justify-content: space-between;
       align-items:center;
       gap:10px;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
-    .cal-title{
-      font-weight:1000;
-      letter-spacing:0.2px;
+    .calTitle{
+      font-weight: 1000;
+      letter-spacing: 0.2px;
       font-size: 15px;
     }
-
-    /* FIX: kalendern på iPhone — mindre gap + stabil cell-höjd */
+    .calBtns{ display:flex; gap:8px; }
     .cal{
       display:grid;
       grid-template-columns: repeat(7, minmax(0, 1fr));
-      gap: 6px; /* mindre än innan */
+      gap: 6px;
     }
     .dow{
       font-size: 11px;
@@ -229,40 +236,32 @@
       text-align:center;
       padding: 4px 0 6px;
     }
-
     .day{
       height: clamp(44px, 9.8vw, 62px);
       border-radius: 14px;
       border: 1px solid var(--border);
       background: #0f1118;
+      padding: 7px 7px 6px;
       display:flex;
       flex-direction: column;
       justify-content: space-between;
-      padding: 7px 7px 6px;
       cursor:pointer;
       user-select:none;
       overflow:hidden;
-      min-width: 0;
+      min-width:0;
     }
-    .day:hover{ filter: brightness(1.08); }
-    .day.off{
-      opacity: 0.35;
-      cursor: default;
-    }
-    .daynum{
-      font-weight:1000;
-      font-size: 13px;
-      color: var(--text);
-      line-height: 1;
-    }
+    .day.off{ opacity:0.35; cursor:default; }
+    .daynum{ font-weight:1000; font-size: 13px; line-height:1; }
     .dayval{
       font-size: 12px;
       color: var(--muted);
       text-align:right;
-      line-height: 1;
+      line-height:1;
       white-space: nowrap;
-      overflow: hidden;
+      overflow:hidden;
       text-overflow: ellipsis;
+      font-variant-numeric: tabular-nums;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
     }
 
     .day.gray{ border-color: rgba(58,63,82,0.95); }
@@ -271,83 +270,91 @@
     .day.green{ border-color: rgba(31,138,76,0.80); }
 
     .legend{
+      margin-top: 10px;
       display:flex;
       gap:10px;
       flex-wrap: wrap;
-      margin-top: 10px;
+    }
+
+    /* Tiny footer text */
+    .tiny{
+      color: var(--muted);
+      font-size: 12px;
+      text-align:center;
+      padding: 8px 0 0;
     }
   </style>
 </head>
 <body>
+  <div class="top">
+    <div class="title">100 PUSHUPS A-DAY KEEP DA DOCTOR A-WAY</div>
+    <div class="subtitle">Tryck på ytan för att logga. Mål: <b>100</b>/dag.</div>
+  </div>
+
   <div class="wrap">
-    <div class="card">
-      <h1>100 PUSHUPS A-DAY KEEP DA DOCTOR A-WAY</h1>
-      <div class="sub">Logga flera gånger per dag. Mål: <span class="mono">100</span>.</div>
-    </div>
+    <!-- Tap counter -->
+    <div>
+      <div class="tapArea" id="tapArea" aria-label="Tryck för att logga">
+        <div class="big" id="todayTotal">0</div>
+        <div class="bigLabel">GJORT IDAG</div>
 
-    <div class="grid">
-      <div class="card">
-        <h2>Idag</h2>
-
-        <div class="row" style="justify-content:space-between; align-items:flex-end;">
-          <div>
-            <div class="big mono" id="todayTotal">0</div>
-            <div class="bigsub">Gjort idag</div>
-          </div>
-
-          <div style="text-align:right;">
-            <div class="pill"><span id="statusDot" class="dot"></span><span id="statusText">—</span></div>
-            <div style="height:8px;"></div>
-            <div class="pill">Kvar: <span class="mono" id="todayLeft">100</span></div>
-          </div>
+        <div class="statusRow">
+          <span class="pill"><span id="statusDot" class="dot"></span><span id="statusText">—</span></span>
+          <span class="pill">Kvar: <span id="todayLeft">100</span></span>
+          <span class="pill">Step: <span id="stepText">10</span></span>
         </div>
-
-        <div class="quick" aria-label="Snabbknappar">
-          <button data-add="5">+5</button>
-          <button data-add="10">+10</button>
-          <button data-add="15">+15</button>
-          <button data-add="20">+20</button>
-          <button data-add="25">+25</button>
-        </div>
-
-        <div class="row" style="margin-top: 12px;">
-          <input id="addInput" type="number" inputmode="numeric" min="1" placeholder="Eget antal (t.ex. 12)" />
-          <button id="addBtn" class="good" style="width:100%;">Lägg till</button>
-        </div>
-
-        <div class="two" style="margin-top:10px;">
-          <button id="undoBtn" class="ghost" style="width:100%;">Ångra senaste</button>
-          <button id="resetTodayBtn" class="danger" style="width:100%;">Nollställ idag</button>
-        </div>
-
-        <div class="divider"></div>
-
-        <div class="row">
-          <span class="pill">Streak (grön i rad): <span class="mono" id="streak">0</span></span>
-          <span class="pill">30 dagar: <span class="mono" id="statsText">—</span></span>
-        </div>
-
-        <div class="loglist" id="logList"></div>
       </div>
 
-      <div class="card">
-        <div class="cal-head">
-          <div class="cal-title" id="calTitle">—</div>
-          <div class="row" style="gap:8px;">
-            <button id="prevMonthBtn" class="ghost" aria-label="Föregående månad">◀</button>
-            <button id="todayBtn" class="ghost">Idag</button>
-            <button id="nextMonthBtn" class="ghost" aria-label="Nästa månad">▶</button>
+      <div class="controls" style="margin-top:12px;">
+        <div class="row">
+          <div class="pill">Streak: <span id="streak">0</span></div>
+          <div class="pill">30 dagar: <span id="statsText">—</span></div>
+        </div>
+
+        <div>
+          <div style="color:var(--muted); font-size:12px; margin: 0 0 8px 2px;">Välj hur mycket varje tryck ska logga:</div>
+          <div class="stepGrid" id="stepGrid">
+            <button class="stepBtn" data-step="1">1</button>
+            <button class="stepBtn" data-step="5">5</button>
+            <button class="stepBtn" data-step="10">10</button>
+            <button class="stepBtn" data-step="15">15</button>
+            <button class="stepBtn" data-step="20">20</button>
+            <button class="stepBtn" data-step="25">25</button>
           </div>
         </div>
 
-        <div class="cal" id="calGrid"></div>
-
-        <div class="legend">
-          <span class="pill"><span class="dot green"></span>Grön = klarat</span>
-          <span class="pill"><span class="dot orange"></span>Orange = påbörjat</span>
-          <span class="pill"><span class="dot red"></span>Röd = missad (0 efter start)</span>
-          <span class="pill"><span class="dot gray"></span>Grå = innan du började</span>
+        <div class="manualRow">
+          <input id="addInput" type="number" inputmode="numeric" min="1" placeholder="Eget antal (t.ex. 12)" />
+          <button id="addBtn" class="good">Lägg till</button>
         </div>
+
+        <div class="row">
+          <button id="undoBtn" class="ghost" style="flex:1;">Ångra senaste</button>
+          <button id="resetTodayBtn" class="danger" style="flex:1;">Nollställ idag</button>
+        </div>
+
+        <div class="tiny">Tips: Du kan bara trycka på stora ytan mellan set – ingen precisionsklick behövs.</div>
+      </div>
+    </div>
+
+    <!-- Calendar -->
+    <div class="calCard">
+      <div class="calHead">
+        <div class="calTitle" id="calTitle">—</div>
+        <div class="calBtns">
+          <button id="prevMonthBtn" class="ghost" aria-label="Föregående månad">◀</button>
+          <button id="todayBtn" class="ghost">Idag</button>
+          <button id="nextMonthBtn" class="ghost" aria-label="Nästa månad">▶</button>
+        </div>
+      </div>
+
+      <div class="cal" id="calGrid"></div>
+
+      <div class="legend">
+        <span class="pill"><span class="dot green"></span>Grön = klarat</span>
+        <span class="pill"><span class="dot orange"></span>Orange = påbörjat</span>
+        <span class="pill"><span class="dot red"></span>Röd = missad (0 efter start)</span>
+        <span class="pill"><span class="dot gray"></span>Grå = innan du började</span>
       </div>
     </div>
   </div>
@@ -355,23 +362,17 @@
   <script>
     const GOAL = 100;
 
-    // Helpers
-    const pad2 = (n) => String(n).padStart(2, "0");
-    const toISODateLocal = (d) => {
-      const y = d.getFullYear();
-      const m = pad2(d.getMonth() + 1);
-      const day = pad2(d.getDate());
-      return `${y}-${m}-${day}`;
-    };
-    const monthNameSV = (m) => [
-      "Januari","Februari","Mars","April","Maj","Juni",
-      "Juli","Augusti","September","Oktober","November","December"
-    ][m];
-
-    // Storage (same key as your current version)
+    // Keep your current device data (same key as your latest versions)
     const STORAGE_KEY = "pushups_simple_v2";
 
-    function defaultState(){ return { days: {} }; }
+    // Helpers
+    const pad2 = (n) => String(n).padStart(2, "0");
+    const toISODateLocal = (d) => `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`;
+    const monthNameSV = (m) => ["Januari","Februari","Mars","April","Maj","Juni","Juli","Augusti","September","Oktober","November","December"][m];
+
+    function defaultState(){
+      return { days: {}, step: 10 };
+    }
 
     function loadState(){
       try{
@@ -380,6 +381,7 @@
         const parsed = JSON.parse(raw);
         if(!parsed || typeof parsed !== "object") return defaultState();
         if(!parsed.days || typeof parsed.days !== "object") parsed.days = {};
+        if(typeof parsed.step !== "number" || parsed.step <= 0) parsed.step = 10;
         for(const k of Object.keys(parsed.days)){
           const day = parsed.days[k];
           if(!day || typeof day !== "object") { delete parsed.days[k]; continue; }
@@ -391,6 +393,7 @@
         return defaultState();
       }
     }
+
     function saveState(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
 
     function ensureDay(iso){
@@ -402,22 +405,23 @@
     }
 
     let state = loadState();
-    let currentMonth = new Date();
-    currentMonth.setDate(1);
+    let currentMonth = new Date(); currentMonth.setDate(1);
 
     // DOM
-    const statusDot = document.getElementById("statusDot");
-    const statusText = document.getElementById("statusText");
+    const tapArea = document.getElementById("tapArea");
     const todayTotalEl = document.getElementById("todayTotal");
     const todayLeftEl = document.getElementById("todayLeft");
+    const statusDot = document.getElementById("statusDot");
+    const statusText = document.getElementById("statusText");
+    const streakEl = document.getElementById("streak");
+    const statsTextEl = document.getElementById("statsText");
+    const stepText = document.getElementById("stepText");
 
+    const stepGrid = document.getElementById("stepGrid");
     const addInput = document.getElementById("addInput");
     const addBtn = document.getElementById("addBtn");
     const undoBtn = document.getElementById("undoBtn");
     const resetTodayBtn = document.getElementById("resetTodayBtn");
-
-    const streakEl = document.getElementById("streak");
-    const statsTextEl = document.getElementById("statsText");
 
     const calTitle = document.getElementById("calTitle");
     const calGrid = document.getElementById("calGrid");
@@ -425,36 +429,31 @@
     const nextMonthBtn = document.getElementById("nextMonthBtn");
     const todayBtn = document.getElementById("todayBtn");
 
-    const logList = document.getElementById("logList");
-
     function getFirstLoggedISO(){
       const keys = Object.keys(state.days);
       if(keys.length === 0) return null;
-      keys.sort(); // YYYY-MM-DD sorts correctly
+      keys.sort();
       return keys[0];
     }
 
-    function getDayTotal(iso){
-      return state.days[iso]?.total ?? 0;
-    }
+    function getDayTotal(iso){ return state.days[iso]?.total ?? 0; }
 
-    // Gray before start, red only after start date
     function getDayStatus(iso, total, firstISO){
-      if(!firstISO) return "gray";        // no logging ever yet
-      if(iso < firstISO) return "gray";   // before you started
+      if(!firstISO) return "gray";
+      if(iso < firstISO) return "gray";
       if(total >= GOAL) return "green";
       if(total > 0) return "orange";
-      return "red";                       // after start, 0 = missed
+      return "red";
     }
 
     function calcStreak(){
       let streak = 0;
-      let d = new Date();
+      const d = new Date();
       while(true){
         const iso = toISODateLocal(d);
         if(getDayTotal(iso) >= GOAL){
-          streak += 1;
-          d.setDate(d.getDate() - 1);
+          streak++;
+          d.setDate(d.getDate()-1);
         }else break;
       }
       return streak;
@@ -467,11 +466,10 @@
 
       for(let i=0;i<30;i++){
         const d = new Date(today);
-        d.setDate(today.getDate() - i);
+        d.setDate(today.getDate()-i);
         const iso = toISODateLocal(d);
         const total = getDayTotal(iso);
         const st = getDayStatus(iso, total, firstISO);
-
         if(st === "gray"){ gray++; continue; }
         sum += total;
         if(st === "green") green++;
@@ -481,118 +479,32 @@
       return { green, orange, red, gray, sum };
     }
 
-    function renderToday(){
-      const iso = toISODateLocal(new Date());
-      const day = ensureDay(iso);
-      const total = day.total;
-
-      todayTotalEl.textContent = total;
-      todayLeftEl.textContent = Math.max(0, GOAL - total);
-
-      const firstISO = getFirstLoggedISO();
-      const st = getDayStatus(iso, total, firstISO);
-
-      statusDot.className = "dot " + st;
-      statusText.textContent =
-        st === "green" ? "Klar ✅" :
-        st === "orange" ? "Påbörjad" :
-        st === "red" ? "Missad (0)" :
-        "Inte börjat än";
-
-      streakEl.textContent = calcStreak();
-      const s = calc30DayStats();
-      statsTextEl.textContent = `🟩 ${s.green}  🟧 ${s.orange}  🟥 ${s.red}  🩶 ${s.gray}  •  Totalt: ${s.sum}`;
-
-      logList.innerHTML = "";
-      const entries = day.entries.slice().sort((a,b) => b.ts - a.ts);
-      if(entries.length === 0){
-        const empty = document.createElement("div");
-        empty.style.color = "var(--muted)";
-        empty.style.fontSize = "13px";
-        empty.textContent = "Inga inlägg idag ännu.";
-        logList.appendChild(empty);
-      }else{
-        for(const e of entries){
-          const item = document.createElement("div");
-          item.className = "logitem";
-          const t = new Date(e.ts);
-          const hh = pad2(t.getHours());
-          const mm = pad2(t.getMinutes());
-          item.innerHTML = `
-            <div>
-              <div class="mono">${e.n} st</div>
-              <div style="color:var(--muted); font-size:13px;">${hh}:${mm}</div>
-            </div>
-            <div style="color:var(--muted); font-size:13px;">+${e.n}</div>
-          `;
-          logList.appendChild(item);
-        }
-      }
+    function setStep(n){
+      state.step = n;
+      saveState();
+      renderStepUI();
     }
 
-    function renderCalendar(){
-      const y = currentMonth.getFullYear();
-      const m = currentMonth.getMonth();
-      calTitle.textContent = `${monthNameSV(m)} ${y}`;
-      calGrid.innerHTML = "";
-
-      const dows = ["Mån","Tis","Ons","Tor","Fre","Lör","Sön"];
-      for(const d of dows){
-        const el = document.createElement("div");
-        el.className = "dow";
-        el.textContent = d;
-        calGrid.appendChild(el);
-      }
-
-      const firstISO = getFirstLoggedISO();
-
-      const first = new Date(y, m, 1);
-      const firstDow = (first.getDay() + 6) % 7;
-      const daysInMonth = new Date(y, m + 1, 0).getDate();
-
-      for(let i=0;i<firstDow;i++){
-        const ghost = document.createElement("div");
-        ghost.className = "day off";
-        ghost.innerHTML = `<div class="daynum"></div><div class="dayval"></div>`;
-        calGrid.appendChild(ghost);
-      }
-
-      for(let dayNum = 1; dayNum <= daysInMonth; dayNum++){
-        const d = new Date(y, m, dayNum);
-        const iso = toISODateLocal(d);
-        const total = getDayTotal(iso);
-        const st = getDayStatus(iso, total, firstISO);
-
-        const cell = document.createElement("div");
-        cell.className = `day ${st}`;
-        cell.innerHTML = `
-          <div class="daynum">${dayNum}</div>
-          <div class="dayval mono">${total ? total : ""}</div>
-        `;
-
-        cell.addEventListener("click", () => {
-          const label =
-            st === "gray" ? "Innan du började" :
-            st === "red" ? "Missad (0)" :
-            st === "orange" ? "Påbörjad" : "Klar";
-
-          const msg =
-            `${iso}\nStatus: ${label}\nTotalt: ${total}\n\nOK = nollställ den här dagen\nAvbryt = lämna som det är`;
-
-          if(confirm(msg)){
-            delete state.days[iso];
-            saveState();
-            renderAll();
-          }
-        });
-
-        calGrid.appendChild(cell);
-      }
+    function renderStepUI(){
+      stepText.textContent = state.step;
+      stepGrid.querySelectorAll("button").forEach(b => {
+        b.classList.toggle("active", Number(b.dataset.step) === state.step);
+      });
     }
 
-    function renderAll(){
-      renderToday();
-      renderCalendar();
+    function rippleAt(x, y){
+      const r = document.createElement("span");
+      r.className = "ripple";
+      r.style.left = x + "px";
+      r.style.top = y + "px";
+      tapArea.appendChild(r);
+      setTimeout(() => r.remove(), 600);
+    }
+
+    function maybeVibrate(){
+      try{
+        if(navigator.vibrate) navigator.vibrate(10);
+      }catch{}
     }
 
     function addReps(n){
@@ -624,9 +536,107 @@
       renderAll();
     }
 
-    // Wire up
-    document.querySelectorAll("button[data-add]").forEach(btn => {
-      btn.addEventListener("click", () => addReps(Number(btn.dataset.add)));
+    function renderToday(){
+      const iso = toISODateLocal(new Date());
+      const day = ensureDay(iso);
+      const total = day.total;
+
+      todayTotalEl.textContent = total;
+      todayLeftEl.textContent = Math.max(0, GOAL - total);
+
+      const firstISO = getFirstLoggedISO();
+      const st = getDayStatus(iso, total, firstISO);
+      statusDot.className = "dot " + st;
+      statusText.textContent =
+        st === "green" ? "Klar ✅" :
+        st === "orange" ? "Påbörjad" :
+        st === "red" ? "Missad (0)" :
+        "Inte börjat än";
+
+      streakEl.textContent = calcStreak();
+
+      const s = calc30DayStats();
+      statsTextEl.textContent = `🟩 ${s.green}  🟧 ${s.orange}  🟥 ${s.red}  🩶 ${s.gray}  •  Totalt: ${s.sum}`;
+    }
+
+    function renderCalendar(){
+      const y = currentMonth.getFullYear();
+      const m = currentMonth.getMonth();
+      calTitle.textContent = `${monthNameSV(m)} ${y}`;
+      calGrid.innerHTML = "";
+
+      const dows = ["Mån","Tis","Ons","Tor","Fre","Lör","Sön"];
+      for(const d of dows){
+        const el = document.createElement("div");
+        el.className = "dow";
+        el.textContent = d;
+        calGrid.appendChild(el);
+      }
+
+      const firstISO = getFirstLoggedISO();
+      const first = new Date(y, m, 1);
+      const firstDow = (first.getDay() + 6) % 7;
+      const daysInMonth = new Date(y, m + 1, 0).getDate();
+
+      for(let i=0;i<firstDow;i++){
+        const ghost = document.createElement("div");
+        ghost.className = "day off";
+        ghost.innerHTML = `<div class="daynum"></div><div class="dayval"></div>`;
+        calGrid.appendChild(ghost);
+      }
+
+      for(let dayNum=1; dayNum<=daysInMonth; dayNum++){
+        const d = new Date(y, m, dayNum);
+        const iso = toISODateLocal(d);
+        const total = getDayTotal(iso);
+        const st = getDayStatus(iso, total, firstISO);
+
+        const cell = document.createElement("div");
+        cell.className = `day ${st}`;
+        cell.innerHTML = `
+          <div class="daynum">${dayNum}</div>
+          <div class="dayval">${total ? total : ""}</div>
+        `;
+
+        cell.addEventListener("click", () => {
+          const label =
+            st === "gray" ? "Innan du började" :
+            st === "red" ? "Missad (0)" :
+            st === "orange" ? "Påbörjad" : "Klar";
+
+          const msg =
+            `${iso}\nStatus: ${label}\nTotalt: ${total}\n\nOK = nollställ den här dagen\nAvbryt = lämna som det är`;
+
+          if(confirm(msg)){
+            delete state.days[iso];
+            saveState();
+            renderAll();
+          }
+        });
+
+        calGrid.appendChild(cell);
+      }
+    }
+
+    function renderAll(){
+      renderStepUI();
+      renderToday();
+      renderCalendar();
+    }
+
+    // Events
+    tapArea.addEventListener("pointerdown", (e) => {
+      // ignore if user is selecting text etc.
+      const rect = tapArea.getBoundingClientRect();
+      rippleAt(e.clientX - rect.left, e.clientY - rect.top);
+      maybeVibrate();
+      addReps(state.step);
+    });
+
+    stepGrid.addEventListener("click", (e) => {
+      const btn = e.target.closest("button[data-step]");
+      if(!btn) return;
+      setStep(Number(btn.dataset.step));
     });
 
     addBtn.addEventListener("click", () => {
@@ -645,16 +655,15 @@
     });
 
     prevMonthBtn.addEventListener("click", () => {
-      currentMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1);
+      currentMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth()-1, 1);
       renderCalendar();
     });
     nextMonthBtn.addEventListener("click", () => {
-      currentMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1);
+      currentMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth()+1, 1);
       renderCalendar();
     });
     todayBtn.addEventListener("click", () => {
-      currentMonth = new Date();
-      currentMonth.setDate(1);
+      currentMonth = new Date(); currentMonth.setDate(1);
       renderAll();
     });
 
