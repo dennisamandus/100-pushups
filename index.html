@@ -359,6 +359,67 @@
     .day.red{ border-color: rgba(161,50,50,0.70); }
     .day.orange{ border-color: rgba(199,125,26,0.80); }
     .day.green{ border-color: rgba(31,138,76,0.80); }
+
+    /* ===== Streak power block ===== */
+    .power{
+      margin-top: 12px;
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      background: rgba(15,17,24,0.55);
+      padding: 14px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .powerTitle{
+      font-weight: 1000;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      font-size: 12px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .powerValue{
+      margin-top: 10px;
+      text-align: center;
+      font-weight: 1000;
+      font-size: 34px;
+      letter-spacing: 0.2px;
+    }
+
+    .powerBar{
+      margin: 12px 6px 2px;
+      height: 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border);
+      overflow:hidden;
+    }
+    .powerBar > div{
+      height: 100%;
+      width: 0%;
+      background: rgba(255,255,255,0.10);
+      transition: width 250ms ease, background 250ms ease;
+    }
+
+    .power::before{
+      content:"";
+      position:absolute;
+      inset:-60% -50%;
+      background: radial-gradient(closest-side at 50% 35%,
+        rgba(31,138,76,var(--pGlow,0.05)),
+        transparent 60%);
+      transform: translateY(10%);
+      pointer-events:none;
+    }
+
+    .powerGlow{
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.03) inset,
+        0 0 calc(18px * var(--pGlow,0.05)) rgba(31,138,76,var(--pGlow,0.05)),
+        0 0 calc(48px * var(--pGlow,0.05)) rgba(31,138,76,var(--pGlow,0.04));
+    }
   </style>
 </head>
 
@@ -430,6 +491,13 @@
         </div>
 
         <div class="cal" id="calGrid"></div>
+
+        <!-- Power block under calendar -->
+        <div class="power powerGlow" id="powerBlock">
+          <div class="powerTitle">STREAK POWER</div>
+          <div class="powerValue" id="powerText">0%</div>
+          <div class="powerBar"><div id="powerFill"></div></div>
+        </div>
       </div>
     </div>
   </div>
@@ -509,34 +577,12 @@
     const nextMonthBtn = document.getElementById("nextMonthBtn");
     const todayBtn = document.getElementById("todayBtn");
 
-    function getFirstLoggedISO(){
-      const keys = Object.keys(state.days);
-      if(keys.length === 0) return null;
-      keys.sort();
-      return keys[0];
-    }
+    // Power block
+    const powerBlock = document.getElementById("powerBlock");
+    const powerText = document.getElementById("powerText");
+    const powerFill = document.getElementById("powerFill");
+
     function getDayTotal(iso){ return state.days[iso]?.total ?? 0; }
-
-    function getDayStatus(iso, total, firstISO){
-      if(!firstISO) return "gray";
-      if(iso < firstISO) return "gray";
-      if(total >= GOAL) return "green";
-      if(total > 0) return "orange";
-      return "red";
-    }
-
-    function calcStreak(){
-      let s = 0;
-      const d = new Date();
-      while(true){
-        const iso = toISODateLocal(d);
-        if(getDayTotal(iso) >= GOAL){
-          s++;
-          d.setDate(d.getDate()-1);
-        }else break;
-      }
-      return s;
-    }
 
     function setStep(n){
       state.step = n;
@@ -592,6 +638,19 @@
       renderAll();
     }
 
+    function calcStreak(){
+      let s = 0;
+      const d = new Date();
+      while(true){
+        const iso = toISODateLocal(d);
+        if(getDayTotal(iso) >= GOAL){
+          s++;
+          d.setDate(d.getDate()-1);
+        }else break;
+      }
+      return s;
+    }
+
     function renderToday(){
       const iso = toISODateLocal(new Date());
       const day = ensureDay(iso);
@@ -607,6 +666,23 @@
       const pct = Math.max(0, Math.min(100, Math.round((total / GOAL) * 100)));
       progressBig.textContent = `${pct}%`;
       barFill.style.width = `${pct}%`;
+
+      // ===== Power block: stronger with streak (0..30) =====
+      const MAX_STREAK = 30;
+      const power = Math.min(1, streak / MAX_STREAK);   // 0..1
+      const pctPower = Math.round(power * 100);
+
+      // Slight boost early
+      const eased = Math.pow(power, 0.6);
+
+      powerText.textContent = `${pctPower}%`;
+      powerFill.style.width = `${pctPower}%`;
+
+      // Glow intensity
+      powerBlock.style.setProperty("--pGlow", String(0.08 + eased * 0.55));
+
+      // Bar brightness
+      powerFill.style.background = `rgba(31,138,76, ${0.20 + eased * 0.65})`;
     }
 
     function renderCalendar(){
@@ -623,7 +699,9 @@
         calGrid.appendChild(el);
       }
 
-      const firstISO = getFirstLoggedISO();
+      // Gray before you started
+      const firstLogged = Object.keys(state.days).sort()[0] || null;
+
       const first = new Date(y, m, 1);
       const firstDow = (first.getDay() + 6) % 7; // Monday=0
       const daysInMonth = new Date(y, m + 1, 0).getDate();
@@ -639,7 +717,13 @@
         const d = new Date(y, m, dayNum);
         const iso = toISODateLocal(d);
         const total = getDayTotal(iso);
-        const st = getDayStatus(iso, total, firstISO);
+
+        let st = "gray";
+        if(firstLogged && iso >= firstLogged){
+          if(total >= GOAL) st = "green";
+          else if(total > 0) st = "orange";
+          else st = "red";
+        }
 
         const cell = document.createElement("div");
         cell.className = `day ${st}`;
@@ -687,11 +771,13 @@
       addInput.focus();
       addReps(n);
     });
+
     addInput.addEventListener("keydown", (e) => {
       if(e.key === "Enter") addBtn.click();
     });
 
     undoBtn.addEventListener("click", undoLast);
+
     resetTodayBtn.addEventListener("click", () => {
       if(confirm("Reset today?")) resetToday();
     });
@@ -700,12 +786,15 @@
       currentMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth()-1, 1);
       renderCalendar();
     });
+
     nextMonthBtn.addEventListener("click", () => {
       currentMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth()+1, 1);
       renderCalendar();
     });
+
     todayBtn.addEventListener("click", () => {
-      currentMonth = new Date(); currentMonth.setDate(1);
+      currentMonth = new Date();
+      currentMonth.setDate(1);
       renderAll();
     });
 
