@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <title>100 armhävningar / dag</title>
+  <title>100 Pushups</title>
   <style>
     :root{
       --bg:#0b0c10;
@@ -15,6 +15,7 @@
       --green:#1f8a4c;
       --orange:#c77d1a;
       --red:#a13232;
+      --gray:#3a3f52;
 
       --btn:#1a1e2a;
       --btn2:#0f1118;
@@ -42,24 +43,30 @@
     .card{
       background:var(--card);
       border: 1px solid var(--border);
-      border-radius: 14px;
+      border-radius: 16px;
       padding: 14px;
     }
 
+    /* Big header */
     h1{
-      margin: 0 0 8px 0;
-      font-size: 18px;
-      font-weight: 800;
-      letter-spacing: 0.2px;
+      margin: 0;
+      font-size: 22px;
+      font-weight: 950;
+      letter-spacing: 0.9px;
+      text-transform: uppercase;
     }
+    .sub{
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
     h2{
       margin: 0 0 10px 0;
       font-size: 15px;
-      font-weight: 800;
+      font-weight: 900;
       letter-spacing: 0.2px;
-      color: var(--text);
     }
-    .muted{ color: var(--muted); font-size: 13px; }
 
     .row{
       display:flex;
@@ -68,22 +75,22 @@
       align-items:center;
     }
 
-    input, button, textarea{
+    input, button{
       font: inherit;
       padding: 12px 12px;
-      border-radius: 12px;
+      border-radius: 14px;
       border: 1px solid var(--border);
       background: var(--btn2);
       color: var(--text);
       outline: none;
     }
     input{ width: 100%; }
-    textarea{ width:100%; min-height: 120px; resize: vertical; }
 
     button{
       cursor: pointer;
       background: var(--btn);
       touch-action: manipulation;
+      font-weight: 850;
     }
     button:hover{ filter: brightness(1.08); }
     button:active{ transform: translateY(1px); }
@@ -99,7 +106,7 @@
     }
     @media (min-width: 860px){
       .grid{ grid-template-columns: 1.1fr 1fr; }
-      input{ width: 160px; }
+      input{ width: 200px; }
     }
 
     .pill{
@@ -112,27 +119,37 @@
       background: #0f1118;
       font-size: 13px;
       color: var(--muted);
+      white-space: nowrap;
     }
+
     .mono{
       font-variant-numeric: tabular-nums;
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
     }
+
     .dot{
       width:10px;height:10px;border-radius:50%;
-      background:#3a3f52;
+      background: var(--gray);
       display:inline-block;
+      flex: 0 0 auto;
     }
     .dot.green{ background: var(--green); }
     .dot.orange{ background: var(--orange); }
     .dot.red{ background: var(--red); }
+    .dot.gray{ background: var(--gray); }
 
+    /* Make "Gjort idag" BIGGER */
     .big{
-      font-size: 34px;
-      font-weight: 900;
-      letter-spacing: 0.3px;
+      font-size: 60px;
+      font-weight: 1000;
+      letter-spacing: 0.5px;
+      line-height: 1;
+    }
+    @media (min-width: 860px){
+      .big{ font-size: 72px; }
     }
     .bigsub{
-      margin-top: 2px;
+      margin-top: 6px;
       color: var(--muted);
       font-size: 13px;
     }
@@ -142,15 +159,12 @@
       display:grid;
       grid-template-columns: repeat(5, 1fr);
       gap: 10px;
-      margin-top: 10px;
+      margin-top: 12px;
     }
     .quick button{
       padding: 14px 10px;
-      font-weight: 800;
-      border-radius: 14px;
-    }
-    @media (min-width: 860px){
-      .quick{ grid-template-columns: repeat(5, minmax(0,1fr)); }
+      border-radius: 16px;
+      font-weight: 1000;
     }
 
     /* Log list */
@@ -165,7 +179,7 @@
     }
     .logitem{
       border: 1px solid var(--border);
-      border-radius: 12px;
+      border-radius: 14px;
       padding: 10px 12px;
       background: #0f1118;
       display:flex;
@@ -174,69 +188,7 @@
       align-items:center;
     }
 
-    /* Calendar */
-    .cal-head{
-      display:flex;
-      justify-content: space-between;
-      align-items:center;
-      gap:10px;
-      margin-bottom: 10px;
-    }
-    .cal-title{
-      font-weight:900;
-      letter-spacing:0.2px;
-      font-size: 14px;
-    }
-    .cal{
-      display:grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 8px;
-    }
-    .dow{
-      font-size: 11px;
-      color: var(--muted);
-      text-align:center;
-      padding: 6px 0;
-    }
-    .day{
-      aspect-ratio: 1 / 1;
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      background: #0f1118;
-      display:flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: 8px;
-      cursor:pointer;
-      user-select:none;
-    }
-    .day:hover{ filter: brightness(1.08); }
-    .day.off{
-      opacity: 0.35;
-      cursor: default;
-    }
-    .daynum{
-      font-weight:900;
-      font-size: 13px;
-      color: var(--text);
-    }
-    .dayval{
-      font-size: 12px;
-      color: var(--muted);
-      text-align:right;
-    }
-    .day.red{ border-color: rgba(161,50,50,0.65); }
-    .day.orange{ border-color: rgba(199,125,26,0.75); }
-    .day.green{ border-color: rgba(31,138,76,0.75); }
-
-    .legend{
-      display:flex;
-      gap:10px;
-      flex-wrap: wrap;
-      margin-top: 10px;
-    }
-
-    .section-divider{
+    .divider{
       height:1px;
       background: var(--border);
       margin: 12px 0;
@@ -250,13 +202,87 @@
     @media (min-width: 860px){
       .two{ grid-template-columns: 1fr 1fr; }
     }
+
+    /* Calendar */
+    .cal-head{
+      display:flex;
+      justify-content: space-between;
+      align-items:center;
+      gap:10px;
+      margin-bottom: 10px;
+    }
+    .cal-title{
+      font-weight:1000;
+      letter-spacing:0.2px;
+      font-size: 15px;
+    }
+
+    /* FIX: kalendern på iPhone — mindre gap + stabil cell-höjd */
+    .cal{
+      display:grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 6px; /* mindre än innan */
+    }
+    .dow{
+      font-size: 11px;
+      color: var(--muted);
+      text-align:center;
+      padding: 4px 0 6px;
+    }
+
+    .day{
+      height: clamp(44px, 9.8vw, 62px);
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: #0f1118;
+      display:flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 7px 7px 6px;
+      cursor:pointer;
+      user-select:none;
+      overflow:hidden;
+      min-width: 0;
+    }
+    .day:hover{ filter: brightness(1.08); }
+    .day.off{
+      opacity: 0.35;
+      cursor: default;
+    }
+    .daynum{
+      font-weight:1000;
+      font-size: 13px;
+      color: var(--text);
+      line-height: 1;
+    }
+    .dayval{
+      font-size: 12px;
+      color: var(--muted);
+      text-align:right;
+      line-height: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .day.gray{ border-color: rgba(58,63,82,0.95); }
+    .day.red{ border-color: rgba(161,50,50,0.70); }
+    .day.orange{ border-color: rgba(199,125,26,0.80); }
+    .day.green{ border-color: rgba(31,138,76,0.80); }
+
+    .legend{
+      display:flex;
+      gap:10px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
   </style>
 </head>
 <body>
   <div class="wrap">
     <div class="card">
-      <h1>Armhävningar – dagligt mål</h1>
-      <div class="muted">Sparas lokalt i din webbläsare (localStorage). Export/Import finns om du vill flytta datan.</div>
+      <h1>100 PUSHUPS A-DAY KEEP DA DOCTOR A-WAY</h1>
+      <div class="sub">Logga flera gånger per dag. Mål: <span class="mono">100</span>.</div>
     </div>
 
     <div class="grid">
@@ -271,8 +297,6 @@
 
           <div style="text-align:right;">
             <div class="pill"><span id="statusDot" class="dot"></span><span id="statusText">—</span></div>
-            <div style="height:8px;"></div>
-            <div class="pill">Mål: <span class="mono" id="goalText">100</span></div>
             <div style="height:8px;"></div>
             <div class="pill">Kvar: <span class="mono" id="todayLeft">100</span></div>
           </div>
@@ -292,17 +316,11 @@
         </div>
 
         <div class="two" style="margin-top:10px;">
-          <div class="row" style="gap:10px;">
-            <input id="goalInput" type="number" inputmode="numeric" min="1" placeholder="Ändra mål (t.ex. 100)" />
-            <button id="setGoalBtn" class="ghost" style="width:100%;">Sätt mål</button>
-          </div>
-          <div class="row" style="gap:10px;">
-            <button id="undoBtn" class="ghost" style="width:100%;">Ångra senaste</button>
-            <button id="resetTodayBtn" class="danger" style="width:100%;">Nollställ idag</button>
-          </div>
+          <button id="undoBtn" class="ghost" style="width:100%;">Ångra senaste</button>
+          <button id="resetTodayBtn" class="danger" style="width:100%;">Nollställ idag</button>
         </div>
 
-        <div class="section-divider"></div>
+        <div class="divider"></div>
 
         <div class="row">
           <span class="pill">Streak (grön i rad): <span class="mono" id="streak">0</span></span>
@@ -327,30 +345,17 @@
         <div class="legend">
           <span class="pill"><span class="dot green"></span>Grön = klarat</span>
           <span class="pill"><span class="dot orange"></span>Orange = påbörjat</span>
-          <span class="pill"><span class="dot red"></span>Röd = inte börjat</span>
-        </div>
-
-        <div class="section-divider"></div>
-
-        <h2>Export / Import</h2>
-        <div class="muted" style="margin-bottom:10px;">
-          För att flytta data mellan mobil & dator: Exportera (kopiera texten) och importera på den andra enheten.
-        </div>
-        <div class="row" style="gap:10px;">
-          <button id="exportBtn" class="ghost" style="width:100%;">Exportera</button>
-          <button id="importBtn" class="good" style="width:100%;">Importera</button>
-        </div>
-        <div style="height:10px;"></div>
-        <textarea id="dataBox" placeholder="Här hamnar export. Klistra också in här för import."></textarea>
-        <div class="muted" style="margin-top:8px;">
-          Import ersätter din nuvarande data (men du kan exportera först som backup).
+          <span class="pill"><span class="dot red"></span>Röd = missad (0 efter start)</span>
+          <span class="pill"><span class="dot gray"></span>Grå = innan du började</span>
         </div>
       </div>
     </div>
   </div>
 
   <script>
-    // ---------- Helpers ----------
+    const GOAL = 100;
+
+    // Helpers
     const pad2 = (n) => String(n).padStart(2, "0");
     const toISODateLocal = (d) => {
       const y = d.getFullYear();
@@ -363,18 +368,10 @@
       "Juli","Augusti","September","Oktober","November","December"
     ][m];
 
-    function isoToDate(iso){
-      // Safe local date from YYYY-MM-DD
-      const [y,m,d] = iso.split("-").map(Number);
-      return new Date(y, m - 1, d);
-    }
-
-    // ---------- Storage ----------
+    // Storage (same key as your current version)
     const STORAGE_KEY = "pushups_simple_v2";
 
-    function defaultState(){
-      return { goal: 100, days: {} };
-    }
+    function defaultState(){ return { days: {} }; }
 
     function loadState(){
       try{
@@ -382,9 +379,7 @@
         if(!raw) return defaultState();
         const parsed = JSON.parse(raw);
         if(!parsed || typeof parsed !== "object") return defaultState();
-        if(typeof parsed.goal !== "number" || parsed.goal <= 0) parsed.goal = 100;
         if(!parsed.days || typeof parsed.days !== "object") parsed.days = {};
-        // normalize day objects
         for(const k of Object.keys(parsed.days)){
           const day = parsed.days[k];
           if(!day || typeof day !== "object") { delete parsed.days[k]; continue; }
@@ -396,37 +391,28 @@
         return defaultState();
       }
     }
-
-    function saveState(){
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    }
+    function saveState(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
 
     function ensureDay(iso){
-      if(!state.days[iso]){
-        state.days[iso] = { total: 0, entries: [] };
-      }
+      if(!state.days[iso]) state.days[iso] = { total: 0, entries: [] };
       const d = state.days[iso];
       if(typeof d.total !== "number") d.total = 0;
       if(!Array.isArray(d.entries)) d.entries = [];
       return d;
     }
 
-    // ---------- App State ----------
     let state = loadState();
     let currentMonth = new Date();
     currentMonth.setDate(1);
 
-    // ---------- DOM ----------
+    // DOM
     const statusDot = document.getElementById("statusDot");
     const statusText = document.getElementById("statusText");
-    const goalText = document.getElementById("goalText");
     const todayTotalEl = document.getElementById("todayTotal");
     const todayLeftEl = document.getElementById("todayLeft");
 
     const addInput = document.getElementById("addInput");
     const addBtn = document.getElementById("addBtn");
-    const goalInput = document.getElementById("goalInput");
-    const setGoalBtn = document.getElementById("setGoalBtn");
     const undoBtn = document.getElementById("undoBtn");
     const resetTodayBtn = document.getElementById("resetTodayBtn");
 
@@ -441,55 +427,58 @@
 
     const logList = document.getElementById("logList");
 
-    const exportBtn = document.getElementById("exportBtn");
-    const importBtn = document.getElementById("importBtn");
-    const dataBox = document.getElementById("dataBox");
+    function getFirstLoggedISO(){
+      const keys = Object.keys(state.days);
+      if(keys.length === 0) return null;
+      keys.sort(); // YYYY-MM-DD sorts correctly
+      return keys[0];
+    }
 
-    // ---------- Core logic ----------
     function getDayTotal(iso){
       return state.days[iso]?.total ?? 0;
     }
 
-    function getDayStatusByTotal(total){
-      if(total >= state.goal) return "green";
+    // Gray before start, red only after start date
+    function getDayStatus(iso, total, firstISO){
+      if(!firstISO) return "gray";        // no logging ever yet
+      if(iso < firstISO) return "gray";   // before you started
+      if(total >= GOAL) return "green";
       if(total > 0) return "orange";
-      return "red";
+      return "red";                       // after start, 0 = missed
     }
 
     function calcStreak(){
-      // streak of "green" days ending at today
       let streak = 0;
       let d = new Date();
       while(true){
         const iso = toISODateLocal(d);
-        const total = getDayTotal(iso);
-        if(total >= state.goal){
+        if(getDayTotal(iso) >= GOAL){
           streak += 1;
           d.setDate(d.getDate() - 1);
-        }else{
-          break;
-        }
+        }else break;
       }
       return streak;
     }
 
     function calc30DayStats(){
       const today = new Date();
-      let green=0, orange=0, red=0, sum=0;
+      const firstISO = getFirstLoggedISO();
+      let green=0, orange=0, red=0, gray=0, sum=0;
 
       for(let i=0;i<30;i++){
         const d = new Date(today);
         d.setDate(today.getDate() - i);
         const iso = toISODateLocal(d);
         const total = getDayTotal(iso);
-        sum += total;
+        const st = getDayStatus(iso, total, firstISO);
 
-        const st = getDayStatusByTotal(total);
+        if(st === "gray"){ gray++; continue; }
+        sum += total;
         if(st === "green") green++;
         else if(st === "orange") orange++;
         else red++;
       }
-      return { green, orange, red, sum };
+      return { green, orange, red, gray, sum };
     }
 
     function renderToday(){
@@ -497,30 +486,29 @@
       const day = ensureDay(iso);
       const total = day.total;
 
-      goalText.textContent = state.goal;
       todayTotalEl.textContent = total;
+      todayLeftEl.textContent = Math.max(0, GOAL - total);
 
-      const left = Math.max(0, state.goal - total);
-      todayLeftEl.textContent = left;
+      const firstISO = getFirstLoggedISO();
+      const st = getDayStatus(iso, total, firstISO);
 
-      const st = getDayStatusByTotal(total);
       statusDot.className = "dot " + st;
       statusText.textContent =
         st === "green" ? "Klar ✅" :
         st === "orange" ? "Påbörjad" :
-        "Inte börjad";
+        st === "red" ? "Missad (0)" :
+        "Inte börjat än";
 
-      // streak + stats
       streakEl.textContent = calcStreak();
       const s = calc30DayStats();
-      statsTextEl.textContent = `🟩 ${s.green}  🟧 ${s.orange}  🟥 ${s.red}  •  Totalt: ${s.sum}`;
+      statsTextEl.textContent = `🟩 ${s.green}  🟧 ${s.orange}  🟥 ${s.red}  🩶 ${s.gray}  •  Totalt: ${s.sum}`;
 
-      // logglista (idag)
       logList.innerHTML = "";
       const entries = day.entries.slice().sort((a,b) => b.ts - a.ts);
       if(entries.length === 0){
         const empty = document.createElement("div");
-        empty.className = "muted";
+        empty.style.color = "var(--muted)";
+        empty.style.fontSize = "13px";
         empty.textContent = "Inga inlägg idag ännu.";
         logList.appendChild(empty);
       }else{
@@ -533,9 +521,9 @@
           item.innerHTML = `
             <div>
               <div class="mono">${e.n} st</div>
-              <div class="muted">${hh}:${mm}</div>
+              <div style="color:var(--muted); font-size:13px;">${hh}:${mm}</div>
             </div>
-            <div class="muted">+${e.n}</div>
+            <div style="color:var(--muted); font-size:13px;">+${e.n}</div>
           `;
           logList.appendChild(item);
         }
@@ -546,10 +534,8 @@
       const y = currentMonth.getFullYear();
       const m = currentMonth.getMonth();
       calTitle.textContent = `${monthNameSV(m)} ${y}`;
-
       calGrid.innerHTML = "";
 
-      // Dagar i veckan header (Mån först)
       const dows = ["Mån","Tis","Ons","Tor","Fre","Lör","Sön"];
       for(const d of dows){
         const el = document.createElement("div");
@@ -558,6 +544,8 @@
         calGrid.appendChild(el);
       }
 
+      const firstISO = getFirstLoggedISO();
+
       const first = new Date(y, m, 1);
       const firstDow = (first.getDay() + 6) % 7;
       const daysInMonth = new Date(y, m + 1, 0).getDate();
@@ -565,7 +553,7 @@
       for(let i=0;i<firstDow;i++){
         const ghost = document.createElement("div");
         ghost.className = "day off";
-        ghost.innerHTML = `<div class="daynum"> </div><div class="dayval"> </div>`;
+        ghost.innerHTML = `<div class="daynum"></div><div class="dayval"></div>`;
         calGrid.appendChild(ghost);
       }
 
@@ -573,25 +561,25 @@
         const d = new Date(y, m, dayNum);
         const iso = toISODateLocal(d);
         const total = getDayTotal(iso);
-        const st = getDayStatusByTotal(total);
+        const st = getDayStatus(iso, total, firstISO);
 
         const cell = document.createElement("div");
         cell.className = `day ${st}`;
         cell.innerHTML = `
           <div class="daynum">${dayNum}</div>
-          <div class="dayval mono">${total}</div>
+          <div class="dayval mono">${total ? total : ""}</div>
         `;
 
-        // Click: show info and offer reset day
         cell.addEventListener("click", () => {
+          const label =
+            st === "gray" ? "Innan du började" :
+            st === "red" ? "Missad (0)" :
+            st === "orange" ? "Påbörjad" : "Klar";
+
           const msg =
-            `${iso}\n` +
-            `Totalt: ${total}\n` +
-            `Mål: ${state.goal}\n\n` +
-            `OK = nollställ den här dagen\n` +
-            `Avbryt = lämna som det är`;
-          const ok = confirm(msg);
-          if(ok){
+            `${iso}\nStatus: ${label}\nTotalt: ${total}\n\nOK = nollställ den här dagen\nAvbryt = lämna som det är`;
+
+          if(confirm(msg)){
             delete state.days[iso];
             saveState();
             renderAll();
@@ -607,13 +595,13 @@
       renderCalendar();
     }
 
-    // ---------- Actions ----------
     function addReps(n){
       if(!Number.isFinite(n) || n <= 0) return;
       const iso = toISODateLocal(new Date());
       const day = ensureDay(iso);
-      day.total += n;
-      day.entries.push({ ts: Date.now(), n: Math.floor(n) });
+      const add = Math.floor(n);
+      day.total += add;
+      day.entries.push({ ts: Date.now(), n: add });
       saveState();
       renderAll();
     }
@@ -624,9 +612,7 @@
       if(day.entries.length === 0) return;
       const last = day.entries.pop();
       day.total = Math.max(0, day.total - (last?.n ?? 0));
-      if(day.total === 0 && day.entries.length === 0){
-        delete state.days[iso];
-      }
+      if(day.total === 0 && day.entries.length === 0) delete state.days[iso];
       saveState();
       renderAll();
     }
@@ -638,67 +624,7 @@
       renderAll();
     }
 
-    function setGoal(n){
-      if(!Number.isFinite(n) || n <= 0) return;
-      state.goal = Math.floor(n);
-      saveState();
-      renderAll();
-    }
-
-    function doExport(){
-      // include version for future safety
-      const payload = {
-        version: 2,
-        exportedAt: new Date().toISOString(),
-        data: state
-      };
-      dataBox.value = JSON.stringify(payload, null, 2);
-      dataBox.focus();
-      dataBox.select();
-    }
-
-    function doImport(){
-      try{
-        const raw = dataBox.value.trim();
-        if(!raw) return alert("Klistra in export-data först.");
-        const parsed = JSON.parse(raw);
-
-        // accept either full payload or direct state
-        const incoming = parsed?.data ?? parsed;
-
-        if(!incoming || typeof incoming !== "object") throw new Error("Fel format");
-        if(typeof incoming.goal !== "number" || incoming.goal <= 0) throw new Error("Saknar goal");
-        if(!incoming.days || typeof incoming.days !== "object") throw new Error("Saknar days");
-
-        // Normalize incoming
-        const cleaned = { goal: Math.floor(incoming.goal), days: {} };
-        for(const iso of Object.keys(incoming.days)){
-          const day = incoming.days[iso];
-          if(!day || typeof day !== "object") continue;
-          const total = Number(day.total ?? 0);
-          const entries = Array.isArray(day.entries) ? day.entries : [];
-          cleaned.days[iso] = {
-            total: Number.isFinite(total) ? total : 0,
-            entries: entries
-              .filter(e => e && typeof e === "object")
-              .map(e => ({ ts: Number(e.ts ?? Date.now()), n: Number(e.n ?? 0) }))
-              .filter(e => Number.isFinite(e.ts) && Number.isFinite(e.n) && e.n > 0)
-          };
-        }
-
-        const ok = confirm("Import ersätter din nuvarande data. Vill du fortsätta?");
-        if(!ok) return;
-
-        state = cleaned;
-        saveState();
-        renderAll();
-        alert("Import klar ✅");
-      }catch(e){
-        alert("Kunde inte importera. Kontrollera att du klistrat in rätt data.");
-      }
-    }
-
-    // ---------- Wire up ----------
+    // Wire up
     document.querySelectorAll("button[data-add]").forEach(btn => {
       btn.addEventListener("click", () => addReps(Number(btn.dataset.add)));
     });
@@ -713,17 +639,9 @@
       if(e.key === "Enter") addBtn.click();
     });
 
-    setGoalBtn.addEventListener("click", () => {
-      const n = Number(goalInput.value);
-      goalInput.value = "";
-      setGoal(n);
-    });
-
     undoBtn.addEventListener("click", undoLast);
-
     resetTodayBtn.addEventListener("click", () => {
-      const ok = confirm("Nollställa dagens logg?");
-      if(ok) resetToday();
+      if(confirm("Nollställa dagens logg?")) resetToday();
     });
 
     prevMonthBtn.addEventListener("click", () => {
@@ -740,10 +658,6 @@
       renderAll();
     });
 
-    exportBtn.addEventListener("click", doExport);
-    importBtn.addEventListener("click", doImport);
-
-    // ---------- Init ----------
     renderAll();
   </script>
 </body>
