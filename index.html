@@ -44,10 +44,7 @@
       z-index: 9999;
       transition: opacity 420ms ease, visibility 420ms ease;
     }
-    .loading.hidden{
-      opacity: 0;
-      visibility: hidden;
-    }
+    .loading.hidden{ opacity: 0; visibility: hidden; }
     .loadingCard{
       width: min(560px, calc(100vw - 32px));
       border-radius: 18px;
@@ -76,16 +73,9 @@
       letter-spacing: 0.5px;
       opacity: 0.95;
     }
-    .dots{
-      margin-top: 12px;
-      display:flex;
-      justify-content:center;
-      gap: 8px;
-    }
+    .dots{ margin-top: 12px; display:flex; justify-content:center; gap: 8px; }
     .dot{
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
+      width: 8px; height: 8px; border-radius: 50%;
       background: rgba(255,255,255,0.20);
       animation: pulse 900ms ease-in-out infinite;
     }
@@ -96,8 +86,7 @@
       50%{ transform: translateY(-4px); opacity: 0.95; }
     }
     .shine{
-      position:absolute;
-      inset: -40% -60%;
+      position:absolute; inset: -40% -60%;
       background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
       transform: rotate(12deg);
       animation: sweep 1400ms ease-in-out infinite;
@@ -184,7 +173,6 @@
       white-space: nowrap;
     }
 
-    /* Ripple on tap */
     .ripple{
       position:absolute;
       border-radius: 999px;
@@ -199,17 +187,8 @@
       to{ width: 520px; height: 520px; opacity: 0; }
     }
 
-    .controls{
-      margin-top: 12px;
-      display:grid;
-      gap: 10px;
-    }
-    .sectionLabel{
-      color: var(--muted);
-      font-size: 12px;
-      letter-spacing: 0.2px;
-      margin-left: 2px;
-    }
+    .controls{ margin-top: 12px; display:grid; gap: 10px; }
+    .sectionLabel{ color: var(--muted); font-size: 12px; letter-spacing: 0.2px; margin-left: 2px; }
     .stepGrid{
       display:grid;
       grid-template-columns: repeat(6, minmax(0, 1fr));
@@ -244,12 +223,7 @@
       border-color: rgba(255,255,255,0.18);
     }
 
-    .row{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      align-items:center;
-    }
+    .row{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
     .row > *{ flex: 1; }
 
     .btnGood{ background:#102316; border-color:#234b33; }
@@ -300,7 +274,6 @@
       transition: width 250ms ease;
     }
 
-    /* Calendar */
     .calHead{
       margin-top: 14px;
       display:flex;
@@ -308,11 +281,7 @@
       align-items:center;
       gap:10px;
     }
-    .calTitle{
-      font-weight: 1000;
-      font-size: 15px;
-      letter-spacing: 0.2px;
-    }
+    .calTitle{ font-weight: 1000; font-size: 15px; letter-spacing: 0.2px; }
     .calBtns{ display:flex; gap:8px; }
 
     .cal{
@@ -360,7 +329,7 @@
     .day.orange{ border-color: rgba(199,125,26,0.80); }
     .day.green{ border-color: rgba(31,138,76,0.80); }
 
-    /* ===== Streak power block ===== */
+    /* ===== Avatar block ===== */
     .power{
       margin-top: 12px;
       border-radius: 18px;
@@ -370,7 +339,6 @@
       position: relative;
       overflow: hidden;
     }
-
     .powerTitle{
       font-weight: 1000;
       letter-spacing: 0.8px;
@@ -379,52 +347,33 @@
       color: var(--muted);
       text-align: center;
     }
-
     .powerValue{
       margin-top: 10px;
       text-align: center;
       font-weight: 1000;
-      font-size: 34px;
+      font-size: 28px;
       letter-spacing: 0.2px;
     }
-
-    .powerBar{
-      margin: 12px 6px 2px;
-      height: 12px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid var(--border);
-      overflow:hidden;
+    .powerHint{
+      margin-top: 6px;
+      text-align:center;
+      color: var(--muted);
+      font-size: 12px;
     }
-    .powerBar > div{
-      height: 100%;
-      width: 0%;
-      background: rgba(255,255,255,0.10);
-      transition: width 250ms ease, background 250ms ease;
+    .avatarWrap{
+      margin-top: 12px;
+      display:flex;
+      justify-content:center;
     }
-
-    .power::before{
-      content:"";
-      position:absolute;
-      inset:-60% -50%;
-      background: radial-gradient(closest-side at 50% 35%,
-        rgba(31,138,76,var(--pGlow,0.05)),
-        transparent 60%);
-      transform: translateY(10%);
-      pointer-events:none;
-    }
-
-    .powerGlow{
-      box-shadow:
-        0 0 0 1px rgba(255,255,255,0.03) inset,
-        0 0 calc(18px * var(--pGlow,0.05)) rgba(31,138,76,var(--pGlow,0.05)),
-        0 0 calc(48px * var(--pGlow,0.05)) rgba(31,138,76,var(--pGlow,0.04));
+    .avatarImg{
+      width: 160px;
+      height: auto;
+      filter: drop-shadow(0 0 calc(20px * var(--pGlow,0.08)) rgba(31,138,76,var(--pGlow,0.10)));
     }
   </style>
 </head>
 
 <body>
-  <!-- Loading screen -->
   <div class="loading" id="loading">
     <div class="loadingCard">
       <div class="shine"></div>
@@ -440,7 +389,7 @@
     <div class="grid">
       <!-- Block 1 -->
       <div class="card">
-        <div class="tapArea" id="tapArea" aria-label="Tap to add">
+        <div class="tapArea" id="tapArea">
           <div class="topLabel">LET’S GO!</div>
           <div class="big" id="todayTotal">0</div>
 
@@ -452,7 +401,7 @@
 
         <div class="controls">
           <div class="sectionLabel">STEP (tap adds this amount)</div>
-          <div class="stepGrid" id="stepGrid" aria-label="Step">
+          <div class="stepGrid" id="stepGrid">
             <button class="stepBtn" data-step="1">1</button>
             <button class="stepBtn" data-step="5">5</button>
             <button class="stepBtn" data-step="10">10</button>
@@ -484,39 +433,36 @@
         <div class="calHead">
           <div class="calTitle" id="calTitle">—</div>
           <div class="calBtns">
-            <button id="prevMonthBtn" class="btnGhost" aria-label="Previous month">◀</button>
+            <button id="prevMonthBtn" class="btnGhost">◀</button>
             <button id="todayBtn" class="btnGhost">Today</button>
-            <button id="nextMonthBtn" class="btnGhost" aria-label="Next month">▶</button>
+            <button id="nextMonthBtn" class="btnGhost">▶</button>
           </div>
         </div>
 
         <div class="cal" id="calGrid"></div>
 
-        <!-- Power block under calendar -->
-        <div class="power powerGlow" id="powerBlock">
-          <div class="powerTitle">STREAK POWER</div>
-          <div class="powerValue" id="powerText">0%</div>
-          <div class="powerBar"><div id="powerFill"></div></div>
+        <!-- Avatar power block -->
+        <div class="power" id="powerBlock">
+          <div class="powerTitle">STREAK AVATAR</div>
+          <div class="avatarWrap">
+            <img id="avatarImg" class="avatarImg" src="avatar_0.png" alt="Streak avatar">
+          </div>
+          <div class="powerValue" id="powerText">LEVEL 0</div>
+          <div class="powerHint" id="powerHint">Keep the streak alive.</div>
         </div>
       </div>
     </div>
   </div>
 
   <script>
-    // Fixed goal
     const GOAL = 100;
-
-    // Keep your existing device data
     const STORAGE_KEY = "pushups_simple_v2";
 
-    // Helpers
     const pad2 = (n) => String(n).padStart(2, "0");
     const toISODateLocal = (d) => `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`;
     const monthName = (m) => ["January","February","March","April","May","June","July","August","September","October","November","December"][m];
 
-    function defaultState(){
-      return { days: {}, step: 10 };
-    }
+    function defaultState(){ return { days: {}, step: 10 }; }
 
     function loadState(){
       try{
@@ -526,7 +472,6 @@
         if(!parsed || typeof parsed !== "object") return defaultState();
         if(!parsed.days || typeof parsed.days !== "object") parsed.days = {};
         if(typeof parsed.step !== "number" || parsed.step <= 0) parsed.step = 10;
-
         for(const k of Object.keys(parsed.days)){
           const day = parsed.days[k];
           if(!day || typeof day !== "object") { delete parsed.days[k]; continue; }
@@ -552,7 +497,6 @@
     let state = loadState();
     let currentMonth = new Date(); currentMonth.setDate(1);
 
-    // DOM
     const loading = document.getElementById("loading");
     const loadingCount = document.getElementById("loadingCount");
 
@@ -577,10 +521,10 @@
     const nextMonthBtn = document.getElementById("nextMonthBtn");
     const todayBtn = document.getElementById("todayBtn");
 
-    // Power block
     const powerBlock = document.getElementById("powerBlock");
     const powerText = document.getElementById("powerText");
-    const powerFill = document.getElementById("powerFill");
+    const powerHint = document.getElementById("powerHint");
+    const avatarImg = document.getElementById("avatarImg");
 
     function getDayTotal(iso){ return state.days[iso]?.total ?? 0; }
 
@@ -651,6 +595,15 @@
       return s;
     }
 
+    function levelFromStreak(streak){
+      if(streak <= 0) return 0;
+      if(streak <= 2) return 1;
+      if(streak <= 6) return 2;
+      if(streak <= 13) return 3;
+      if(streak <= 20) return 4;
+      return 5;
+    }
+
     function renderToday(){
       const iso = toISODateLocal(new Date());
       const day = ensureDay(iso);
@@ -667,22 +620,33 @@
       progressBig.textContent = `${pct}%`;
       barFill.style.width = `${pct}%`;
 
-      // ===== Power block: stronger with streak (0..30) =====
-      const MAX_STREAK = 30;
-      const power = Math.min(1, streak / MAX_STREAK);   // 0..1
-      const pctPower = Math.round(power * 100);
+      // ===== Avatar power =====
+      const lvl = levelFromStreak(streak);
 
-      // Slight boost early
-      const eased = Math.pow(power, 0.6);
+      const AVATARS = [
+        "avatar_0.png",
+        "avatar_1.png",
+        "avatar_2.png",
+        "avatar_3.png",
+        "avatar_4.png",
+        "avatar_5.png"
+      ];
 
-      powerText.textContent = `${pctPower}%`;
-      powerFill.style.width = `${pctPower}%`;
+      avatarImg.src = AVATARS[lvl] || AVATARS[0];
+      powerText.textContent = `LEVEL ${lvl}`;
 
-      // Glow intensity
-      powerBlock.style.setProperty("--pGlow", String(0.08 + eased * 0.55));
+      const glowByLevel = [0.06, 0.12, 0.20, 0.32, 0.45, 0.60];
+      powerBlock.style.setProperty("--pGlow", String(glowByLevel[lvl] ?? 0.08));
 
-      // Bar brightness
-      powerFill.style.background = `rgba(31,138,76, ${0.20 + eased * 0.65})`;
+      const hints = [
+        "Start the streak.",
+        "Nice! Keep it going.",
+        "Solid! You’re building momentum.",
+        "Strong streak. Don’t break it.",
+        "Beast mode. Stay consistent.",
+        "MAX POWER. Legendary streak."
+      ];
+      powerHint.textContent = hints[lvl] || "Keep the streak alive.";
     }
 
     function renderCalendar(){
@@ -699,11 +663,10 @@
         calGrid.appendChild(el);
       }
 
-      // Gray before you started
       const firstLogged = Object.keys(state.days).sort()[0] || null;
 
       const first = new Date(y, m, 1);
-      const firstDow = (first.getDay() + 6) % 7; // Monday=0
+      const firstDow = (first.getDay() + 6) % 7;
       const daysInMonth = new Date(y, m + 1, 0).getDate();
 
       for(let i=0;i<firstDow;i++){
@@ -732,7 +695,6 @@
           <div class="dayval">${total ? total : ""}</div>
         `;
 
-        // Simple: tap a day to reset
         cell.addEventListener("click", () => {
           if(confirm(`Reset ${iso}?`)){
             delete state.days[iso];
@@ -751,7 +713,6 @@
       renderCalendar();
     }
 
-    // Events
     tapArea.addEventListener("pointerdown", (e) => {
       const rect = tapArea.getBoundingClientRect();
       rippleAt(e.clientX - rect.left, e.clientY - rect.top);
@@ -798,10 +759,8 @@
       renderAll();
     });
 
-    // Init
     renderAll();
 
-    // Loading animation: count 0 -> 100, then fade
     function runLoading(){
       const durationMs = 650;
       const start = performance.now();
@@ -821,3 +780,4 @@
   </script>
 </body>
 </html>
+
