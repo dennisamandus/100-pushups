@@ -13,8 +13,9 @@
     :root{
       --bg:#0b0b0c;
       --panel:#121214;
+      --panel2:#0f0f11;
       --cream:#f4f1e9;
-      --muted:rgba(244,241,233,.70);
+      --muted:rgba(244,241,233,.72);
       --muted2:rgba(244,241,233,.55);
       --border:rgba(244,241,233,.10);
 
@@ -29,21 +30,23 @@
     html, body{ height:100%; }
     body{
       margin:0;
-      background: radial-gradient(1200px 700px at 50% -10%, rgba(227,59,47,.16), transparent 55%),
-                  radial-gradient(900px 600px at 80% 0%, rgba(255,122,47,.10), transparent 60%),
-                  var(--bg);
+      background:
+        radial-gradient(1200px 700px at 50% -10%, rgba(227,59,47,.16), transparent 55%),
+        radial-gradient(900px 600px at 80% 0%, rgba(255,122,47,.10), transparent 60%),
+        var(--bg);
       color:var(--cream);
       font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
 
-    /* ===== Loading screen (more dramatic) ===== */
+    /* ===== Loading (dramatic) ===== */
     .loading{
       position: fixed; inset: 0;
-      background: radial-gradient(900px 520px at 50% 0%, rgba(227,59,47,.20), transparent 60%),
-                  radial-gradient(700px 460px at 80% 10%, rgba(255,122,47,.16), transparent 60%),
-                  var(--bg);
+      background:
+        radial-gradient(900px 520px at 50% 0%, rgba(227,59,47,.22), transparent 60%),
+        radial-gradient(700px 460px at 80% 10%, rgba(255,122,47,.16), transparent 60%),
+        var(--bg);
       display:flex; align-items:center; justify-content:center;
       z-index: 9999;
       transition: opacity 520ms ease, visibility 520ms ease;
@@ -84,11 +87,9 @@
     }
     .sparkline{
       margin: 10px auto 0;
-      width: 160px;
-      height: 10px;
+      width: 160px; height: 10px;
       border-radius: 999px;
       background: linear-gradient(90deg, transparent, rgba(227,59,47,.55), rgba(255,122,47,.55), transparent);
-      filter: blur(0.2px);
       animation: glow 900ms ease-in-out infinite;
       opacity: .9;
     }
@@ -113,7 +114,7 @@
     .wrap{
       max-width: 980px;
       margin: 0 auto;
-      padding: 16px 14px 26px;
+      padding: 16px 14px 24px;
       display:grid;
       gap: 12px;
     }
@@ -134,7 +135,7 @@
       gap: 12px;
     }
     @media (min-width: 860px){
-      .grid{ grid-template-columns: 1.05fr 1fr; align-items:start; }
+      .grid{ grid-template-columns: 1.1fr 0.9fr; align-items:start; }
     }
 
     .card{
@@ -148,20 +149,12 @@
       box-shadow: 0 16px 40px var(--shadow);
     }
 
-    /* ===== Main card ===== */
-    .todayLine{
-      display:flex;
-      align-items:flex-end;
-      justify-content:center;
-      gap: 10px;
-      flex-wrap:wrap;
-      padding-top: 8px;
-    }
+    /* ===== TODAY + Clicker ===== */
+    .todayLine{ display:flex; justify-content:center; padding-top: 8px; }
     .todayBig{
       font-family: "Space Grotesk", Inter, system-ui;
       font-size: clamp(40px, 9vw, 64px);
       font-weight: 700;
-      letter-spacing: 0.2px;
       line-height: 1;
     }
 
@@ -216,14 +209,60 @@
       height:100%;
       width: 0%;
       background: linear-gradient(90deg, var(--accent), var(--accent2));
-      transition: width 220ms ease;
+      transition: width 160ms ease;
     }
 
-    /* Quick add buttons */
-    .quickRow{
+    .clickerWrap{
       margin-top: 12px;
+      border: 1px solid var(--border);
+      background: rgba(0,0,0,.18);
+      border-radius: 16px;
+      padding: 12px;
+      overflow:hidden;
+      position: relative;
+      user-select:none;
+      -webkit-user-select:none;
+      touch-action: manipulation;
+    }
+
+    .clickerTitle{
+      font-family: "Space Grotesk", Inter, system-ui;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-size: 12px;
+      color: var(--muted);
+      text-align:center;
+      margin-bottom: 10px;
+    }
+
+    .bigClick{
+      width:100%;
+      border: 1px solid rgba(244,241,233,.12);
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      color: rgba(244,241,233,.97);
+      border-radius: 18px;
+      padding: 18px 14px;
+      cursor:pointer;
+      box-shadow: 0 16px 44px rgba(227,59,47,.18);
+      font-family: "Space Grotesk", Inter, system-ui;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-size: 18px;
+    }
+    .bigClick:active{ transform: translateY(1px); }
+    .bigSub{
+      text-align:center;
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 8px;
+    }
+
+    .quickRow{
+      margin-top: 10px;
       display:grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, 1fr);
       gap: 10px;
     }
     .qbtn{
@@ -231,67 +270,54 @@
       background: rgba(255,255,255,.04);
       color: rgba(244,241,233,.95);
       border-radius: 16px;
-      padding: 14px 12px;
+      padding: 12px 12px;
       font-family: "Space Grotesk", Inter, system-ui;
       font-weight: 700;
-      font-size: 18px;
+      font-size: 16px;
       letter-spacing: .6px;
       cursor:pointer;
       text-transform: uppercase;
-      user-select:none;
-    }
-    .qbtn.primary{
-      background: linear-gradient(90deg, var(--accent), var(--accent2));
-      box-shadow: 0 14px 36px rgba(227,59,47,.18);
     }
     .qbtn:active{ transform: translateY(1px); }
 
-    /* Streakbar (replaces Level section) */
-    .streakWrap{
-      margin-top: 12px;
-      border: 1px solid var(--border);
-      background: rgba(0,0,0,.18);
-      border-radius: 14px;
-      padding: 12px;
-    }
-    .streakTop{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:10px;
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: .2px;
-      color: var(--muted);
-    }
-    .streakTop strong{ color: rgba(244,241,233,.95); font-weight: 900; }
-    .streakBar{
+    .linkBtn{
+      width: 100%;
       margin-top: 10px;
-      height: 12px;
-      border-radius: 999px;
-      background: rgba(244,241,233,0.08);
-      border: 1px solid var(--border);
-      overflow:hidden;
-      position: relative;
+      background: transparent;
+      border: none;
+      color: rgba(244,241,233,.75);
+      font-weight: 800;
+      padding: 10px 0;
+      cursor:pointer;
+      text-decoration: underline;
+      text-underline-offset: 4px;
     }
-    .streakFill{
-      height:100%;
-      width:0%;
-      background: linear-gradient(90deg, rgba(255,122,47,.55), rgba(227,59,47,.95));
-      transition: width 220ms ease;
-    }
-    .streakCap{
+    .linkBtn:hover{ color: rgba(244,241,233,.95); }
+
+    /* ripple */
+    .ripple{
       position:absolute;
-      right: 8px;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 11px;
-      color: rgba(244,241,233,.80);
+      border-radius: 999px;
+      transform: translate(-50%,-50%);
       pointer-events:none;
-      text-shadow: 0 0 18px rgba(227,59,47,.25);
+      background: rgba(244,241,233,0.14);
+      animation: ripple 520ms ease-out forwards;
+      mix-blend-mode: screen;
+    }
+    @keyframes ripple{
+      from{ width: 0; height: 0; opacity: 0.55; }
+      to{ width: 520px; height: 520px; opacity: 0; }
     }
 
-    /* Toast */
+    /* pop on TODAY */
+    .pop{ animation: pop 220ms ease-out; }
+    @keyframes pop{
+      0%{ transform: scale(1); }
+      50%{ transform: scale(1.04); }
+      100%{ transform: scale(1); }
+    }
+
+    /* toast */
     .toast{
       position: fixed;
       left: 50%;
@@ -308,7 +334,7 @@
       opacity: 0;
       pointer-events:none;
       transition: opacity 160ms ease, transform 160ms ease;
-      z-index: 60;
+      z-index: 80;
       white-space: nowrap;
     }
     .toast.show{
@@ -316,15 +342,30 @@
       transform: translateX(-50%) translateY(-6px);
     }
 
-    /* Pop animation on TODAY */
-    .pop{ animation: pop 220ms ease-out; }
-    @keyframes pop{
-      0%{ transform: scale(1); }
-      50%{ transform: scale(1.04); }
-      100%{ transform: scale(1); }
+    /* confetti */
+    .confetti{
+      position: fixed;
+      inset: 0;
+      pointer-events:none;
+      z-index: 90;
+      overflow:hidden;
+      display:none;
+    }
+    .confetti.show{ display:block; }
+    .confetti i{
+      position:absolute;
+      top:-10px;
+      width: 10px;
+      height: 14px;
+      border-radius: 2px;
+      opacity:.9;
+      animation: fall 900ms ease-out forwards;
+    }
+    @keyframes fall{
+      to{ transform: translateY(110vh) rotate(360deg); opacity: 0; }
     }
 
-    /* ===== Right card: Copy + Calendar + Avatar ===== */
+    /* ===== Right: Copy + Avatar ===== */
     .stateTitle{
       font-family: "Space Grotesk", Inter, system-ui;
       font-weight: 700;
@@ -342,12 +383,93 @@
       margin-top: 6px;
     }
 
+    .avatarBlock{
+      margin-top: 12px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: rgba(0,0,0,.18);
+      padding: 14px;
+      position: relative;
+      overflow: hidden;
+    }
+    .avatarTitle{
+      font-family: "Space Grotesk", Inter, system-ui;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-size: 12px;
+      color: var(--muted);
+      text-align:center;
+    }
+    .avatarWrap{
+      margin-top: 10px;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+    }
+    .avatarImg{
+      width: 180px;
+      height: auto;
+      filter: drop-shadow(0 0 calc(22px * var(--pGlow,0.08)) rgba(227,59,47,var(--pGlow,0.14)));
+    }
+    .streakCounter{
+      margin-top: 10px;
+      text-align:center;
+      font-family: "Space Grotesk", Inter, system-ui;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-size: 14px;
+      color: rgba(244,241,233,.92);
+    }
+    .streakMini{
+      margin-top: 6px;
+      text-align:center;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .streakBarWrap{
+      margin-top: 12px;
+      border: 1px solid var(--border);
+      background: rgba(0,0,0,.18);
+      border-radius: 14px;
+      padding: 12px;
+    }
+    .streakBarTop{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .2px;
+      color: var(--muted);
+    }
+    .streakBarTop strong{ color: rgba(244,241,233,.95); font-weight: 900; }
+    .streakBar{
+      margin-top: 10px;
+      height: 12px;
+      border-radius: 999px;
+      background: rgba(244,241,233,0.08);
+      border: 1px solid var(--border);
+      overflow:hidden;
+      position: relative;
+    }
+    .streakFill{
+      height:100%;
+      width:0%;
+      background: linear-gradient(90deg, rgba(255,122,47,.55), rgba(227,59,47,.95));
+      transition: width 160ms ease;
+    }
+
+    /* ===== Calendar (bottom) ===== */
     .calHead{
-      margin-top: 14px;
       display:flex;
       justify-content: space-between;
       align-items:center;
       gap:10px;
+      margin-bottom: 8px;
     }
     .calTitle{
       font-family: "Space Grotesk", Inter, system-ui;
@@ -389,13 +511,12 @@
       display:flex;
       flex-direction: column;
       justify-content: space-between;
-      cursor:pointer;
       user-select:none;
       overflow:hidden;
       min-width:0;
       position: relative;
     }
-    .day.off{ opacity:0.25; cursor:default; }
+    .day.off{ opacity:0.25; }
     .daynum{ font-weight:900; font-size: 13px; line-height:1; }
     .dayval{
       font-size: 12px;
@@ -409,7 +530,7 @@
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     }
 
-    /* Calendar states */
+    /* calendar states */
     .day.before{ opacity:.35; }
     .day.missed{ opacity:.55; }
     .day.started{
@@ -435,52 +556,6 @@
       opacity: .75;
       pointer-events:none;
     }
-
-    /* Avatar block */
-    .avatarBlock{
-      margin-top: 12px;
-      border-radius: var(--radius);
-      border: 1px solid var(--border);
-      background: rgba(0,0,0,.18);
-      padding: 14px;
-      position: relative;
-      overflow: hidden;
-    }
-    .avatarTitle{
-      font-family: "Space Grotesk", Inter, system-ui;
-      font-weight: 700;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      font-size: 12px;
-      color: var(--muted);
-      text-align:center;
-    }
-    .avatarWrap{
-      margin-top: 10px;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      gap: 12px;
-    }
-    .avatarImg{
-      width: 170px;
-      height: auto;
-      filter: drop-shadow(0 0 calc(22px * var(--pGlow,0.08)) rgba(227,59,47,var(--pGlow,0.14)));
-    }
-    .avatarMeta{
-      margin-top: 8px;
-      text-align:center;
-      font-weight: 900;
-      letter-spacing: .4px;
-      color: rgba(244,241,233,.92);
-    }
-    .avatarHint{
-      margin-top: 6px;
-      text-align:center;
-      color: var(--muted);
-      font-size: 12px;
-    }
-
   </style>
 </head>
 
@@ -488,29 +563,31 @@
   <div class="loading" id="loading">
     <div class="loadingCard">
       <div class="shine"></div>
-      <div class="loadingTitle" id="loadingTitle">CONSISTENCY MODE</div>
+      <div class="loadingTitle" id="loadingTitle">THE 100 CLUB</div>
       <div class="loadingCount" id="loadingCount">0</div>
       <div class="sparkline"></div>
     </div>
   </div>
 
-  <div class="toast" id="toast">+10 added</div>
+  <div class="confetti" id="confetti"></div>
+  <div class="toast" id="toast">+1 added</div>
 
   <div class="wrap">
     <div class="topHero">
-      <div class="heroTitle" id="heroTitle">THE 100 CLUB</div>
+      <div class="heroTitle" id="heroTitle">CONSISTENCY MODE</div>
     </div>
 
+    <!-- TOP GRID -->
     <div class="grid">
-      <!-- LEFT -->
+      <!-- LEFT: Today + Clicker -->
       <div class="card">
         <div class="todayLine">
           <div class="todayBig" id="todayText">TODAY: 0 / 100</div>
         </div>
 
         <div class="statsRow">
-          <div class="pill">STREAK: <strong id="streakText">0</strong> days</div>
           <div class="pill">REMAINING: <strong id="remainingText">100</strong></div>
+          <div class="pill">STREAK: <strong id="streakText">0</strong> days</div>
         </div>
 
         <div class="progressWrap">
@@ -521,59 +598,65 @@
           <div class="bar"><div id="barFill"></div></div>
         </div>
 
-        <!-- Quick add buttons -->
-        <div class="quickRow" aria-label="Quick add">
-          <button class="qbtn" data-add="1">+1</button>
-          <button class="qbtn" data-add="5">+5</button>
-          <button class="qbtn primary" data-add="10">+10</button>
-        </div>
+        <div class="clickerWrap" id="clickerWrap">
+          <div class="clickerTitle">CLICKER MODE</div>
+          <button class="bigClick" id="clickBtn">+1 PUSHUP</button>
+          <div class="bigSub">Tap to log 1. Keep it fun.</div>
 
-        <!-- Streak bar -->
-        <div class="streakWrap">
-          <div class="streakTop">
-            <div>Streak boost</div>
-            <div><strong id="streakBoostText">0</strong> / <span id="streakCapText">7</span></div>
+          <div class="quickRow" aria-label="Boosters">
+            <button class="qbtn" data-add="5">+5</button>
+            <button class="qbtn" data-add="10">+10</button>
           </div>
-          <div class="streakBar">
-            <div class="streakFill" id="streakFill"></div>
-            <div class="streakCap" id="streakCapLabel">Top at 7</div>
-          </div>
+
+          <button class="linkBtn" id="undoBtn">Undo last</button>
         </div>
       </div>
 
-      <!-- RIGHT -->
+      <!-- RIGHT: Copy + Avatar/Streak -->
       <div class="card">
         <div class="stateTitle" id="stateTitle">KEEP GOING</div>
         <div class="stateCopy" id="stateCopy">You can do it. Start with 10.</div>
-
-        <div class="calHead">
-          <div class="calTitle" id="calTitle">—</div>
-          <div class="calBtns">
-            <button class="btnGhost" id="prevMonthBtn">◀</button>
-            <button class="btnGhost" id="todayBtn">Today</button>
-            <button class="btnGhost" id="nextMonthBtn">▶</button>
-          </div>
-        </div>
-
-        <div class="cal" id="calGrid"></div>
 
         <div class="avatarBlock" id="avatarBlock">
           <div class="avatarTitle">STREAK AVATAR</div>
           <div class="avatarWrap">
             <img id="avatarImg" class="avatarImg" src="avatar_0.png" alt="Streak avatar">
           </div>
-          <div class="avatarMeta" id="avatarMeta">LEVEL 0</div>
-          <div class="avatarHint" id="avatarHint">Start the streak.</div>
+
+          <div class="streakCounter" id="streakCounter">STREAK: 0 DAYS</div>
+          <div class="streakMini" id="streakMini">Complete 100 today to keep your power.</div>
+
+          <div class="streakBarWrap">
+            <div class="streakBarTop">
+              <div>Next milestone</div>
+              <div><strong id="streakNow">0</strong> / <span id="streakCap">7</span></div>
+            </div>
+            <div class="streakBar"><div class="streakFill" id="streakFill"></div></div>
+          </div>
         </div>
       </div>
+    </div>
+
+    <!-- CALENDAR BOTTOM -->
+    <div class="card">
+      <div class="calHead">
+        <div class="calTitle" id="calTitle">—</div>
+        <div class="calBtns">
+          <button class="btnGhost" id="prevMonthBtn">◀</button>
+          <button class="btnGhost" id="todayBtn">Today</button>
+          <button class="btnGhost" id="nextMonthBtn">▶</button>
+        </div>
+      </div>
+
+      <div class="cal" id="calGrid"></div>
     </div>
   </div>
 
   <script>
+    // ===== Config =====
     const GOAL = 100;
-    const STORAGE_KEY = "pushups_simple_v2";
+    const STORAGE_KEY = "pushups_clicker_v1";
 
-    // Titles rotate (loading + hero)
     const TITLES = [
       "100 PUSHUPS A-DAY KEEP DA DOCTOR A-WAY",
       "THE 100 CLUB",
@@ -584,6 +667,7 @@
       "ONE HUNDRED. EVERY DAY."
     ];
 
+    // Avatar images in repo root
     const AVATARS = [
       "avatar_0.png",
       "avatar_1.png",
@@ -602,18 +686,7 @@
       return 5;
     }
 
-    const avatarHints = [
-      "Start the streak.",
-      "Nice! Keep it going.",
-      "Solid momentum.",
-      "Strong streak. Don’t break it.",
-      "Beast mode.",
-      "MAX POWER. Legendary."
-    ];
-
-    // Streakbar caps (communicate topping streak)
-    // You can tweak these: it feels game-like.
-    const STREAK_CAPS = [3, 7, 14, 21, 30]; // milestones
+    const STREAK_CAPS = [3, 7, 14, 21, 30];
     function nextStreakCap(streak){
       for(const c of STREAK_CAPS){
         if(streak < c) return c;
@@ -621,13 +694,15 @@
       return STREAK_CAPS[STREAK_CAPS.length - 1];
     }
 
+    // ===== Helpers =====
     const pad2 = (n) => String(n).padStart(2, "0");
     const toISODateLocal = (d) => `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`;
     const monthName = (m) => ["January","February","March","April","May","June","July","August","September","October","November","December"][m];
 
     function defaultState(){
-      return { days: {} };
+      return { days: {} }; // days[iso] = { total, entries:[{ts,n}] }
     }
+
     function loadState(){
       try{
         const raw = localStorage.getItem(STORAGE_KEY);
@@ -646,7 +721,9 @@
         return defaultState();
       }
     }
+
     function saveState(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+
     function ensureDay(iso){
       if(!state.days[iso]) state.days[iso] = { total: 0, entries: [] };
       const d = state.days[iso];
@@ -654,6 +731,7 @@
       if(!Array.isArray(d.entries)) d.entries = [];
       return d;
     }
+
     function getDayTotal(iso){ return state.days[iso]?.total ?? 0; }
 
     function calcStreak(){
@@ -669,28 +747,38 @@
       return s;
     }
 
-    // DOM
+    function pickTitle(){ return TITLES[Math.floor(Math.random()*TITLES.length)]; }
+
+    // ===== DOM =====
     const loading = document.getElementById("loading");
     const loadingCount = document.getElementById("loadingCount");
     const loadingTitle = document.getElementById("loadingTitle");
     const heroTitle = document.getElementById("heroTitle");
 
     const todayText = document.getElementById("todayText");
-    const streakText = document.getElementById("streakText");
     const remainingText = document.getElementById("remainingText");
     const remainingText2 = document.getElementById("remainingText2");
+    const streakText = document.getElementById("streakText");
     const pctText = document.getElementById("pctText");
     const barFill = document.getElementById("barFill");
 
-    const toast = document.getElementById("toast");
+    const clickerWrap = document.getElementById("clickerWrap");
+    const clickBtn = document.getElementById("clickBtn");
+    const undoBtn = document.getElementById("undoBtn");
 
-    const streakBoostText = document.getElementById("streakBoostText");
-    const streakCapText = document.getElementById("streakCapText");
-    const streakCapLabel = document.getElementById("streakCapLabel");
-    const streakFill = document.getElementById("streakFill");
+    const toast = document.getElementById("toast");
+    const confetti = document.getElementById("confetti");
 
     const stateTitle = document.getElementById("stateTitle");
     const stateCopy = document.getElementById("stateCopy");
+
+    const avatarBlock = document.getElementById("avatarBlock");
+    const avatarImg = document.getElementById("avatarImg");
+    const streakCounter = document.getElementById("streakCounter");
+    const streakMini = document.getElementById("streakMini");
+    const streakNow = document.getElementById("streakNow");
+    const streakCap = document.getElementById("streakCap");
+    const streakFill = document.getElementById("streakFill");
 
     const calTitle = document.getElementById("calTitle");
     const calGrid = document.getElementById("calGrid");
@@ -698,14 +786,11 @@
     const nextMonthBtn = document.getElementById("nextMonthBtn");
     const todayBtn = document.getElementById("todayBtn");
 
-    const avatarBlock = document.getElementById("avatarBlock");
-    const avatarImg = document.getElementById("avatarImg");
-    const avatarMeta = document.getElementById("avatarMeta");
-    const avatarHint = document.getElementById("avatarHint");
-
+    // ===== State =====
     let state = loadState();
     let currentMonth = new Date(); currentMonth.setDate(1);
 
+    // ===== UI feedback =====
     function pop(el){
       el.classList.remove("pop");
       void el.offsetWidth;
@@ -718,18 +803,78 @@
       setTimeout(()=> toast.classList.remove("show"), 700);
     }
 
+    function rippleAt(x, y){
+      const r = document.createElement("span");
+      r.className = "ripple";
+      r.style.left = x + "px";
+      r.style.top = y + "px";
+      clickerWrap.appendChild(r);
+      setTimeout(()=> r.remove(), 600);
+    }
+
+    function burstConfetti(){
+      confetti.innerHTML = "";
+      confetti.classList.add("show");
+      const colors = ["#e33b2f","#ff7a2f","#f4f1e9","#ffb27a"];
+      const count = 24;
+      for(let i=0;i<count;i++){
+        const piece = document.createElement("i");
+        piece.style.background = colors[Math.floor(Math.random()*colors.length)];
+        piece.style.left = Math.round(Math.random()*100) + "vw";
+        piece.style.animationDelay = (Math.random()*0.08) + "s";
+        piece.style.opacity = (0.6 + Math.random()*0.4).toFixed(2);
+        confetti.appendChild(piece);
+      }
+      setTimeout(()=> confetti.classList.remove("show"), 950);
+    }
+
+    // ===== Core actions =====
     function addReps(n){
       if(!Number.isFinite(n) || n <= 0) return;
       const iso = toISODateLocal(new Date());
       const day = ensureDay(iso);
-      day.total += Math.floor(n);
-      day.entries.push({ ts: Date.now(), n: Math.floor(n) });
+
+      const prev = day.total;
+      const add = Math.floor(n);
+
+      day.total += add;
+      day.entries.push({ ts: Date.now(), n: add });
+
+      saveState();
+      renderAll();
+
+      pop(todayText);
+      showToast(`+${add} added`);
+
+      if(prev < GOAL && day.total >= GOAL){
+        burstConfetti();
+      }
+    }
+
+    function undoLast(){
+      const iso = toISODateLocal(new Date());
+      const day = state.days[iso];
+      if(!day || !Array.isArray(day.entries) || day.entries.length === 0){
+        showToast("Nothing to undo");
+        return;
+      }
+
+      const last = day.entries.pop();
+      const dec = last?.n ?? 0;
+
+      day.total = Math.max(0, (day.total || 0) - dec);
+
+      if(day.total === 0 && day.entries.length === 0){
+        delete state.days[iso];
+      }
+
       saveState();
       renderAll();
       pop(todayText);
-      showToast(`+${Math.floor(n)} added`);
+      showToast(`Undid +${dec}`);
     }
 
+    // ===== Copy states (5 steps) =====
     function renderStateCopy(todayTotal){
       if(todayTotal >= GOAL){
         stateTitle.textContent = "DONE FOR TODAY";
@@ -744,6 +889,7 @@
       else stateCopy.textContent = "Goal smashed. You’re a machine.";
     }
 
+    // ===== Render =====
     function renderTop(){
       const iso = toISODateLocal(new Date());
       const todayTotal = getDayTotal(iso);
@@ -761,21 +907,24 @@
 
       renderStateCopy(todayTotal);
 
-      // Avatar by streak
-      const avLvl = levelFromStreak(streak);
-      avatarImg.src = AVATARS[avLvl] || AVATARS[0];
-      avatarMeta.textContent = `LEVEL ${avLvl}`;
-      avatarHint.textContent = avatarHints[avLvl] || "Keep it going.";
+      // Avatar as streak power
+      const lvl = levelFromStreak(streak);
+      avatarImg.src = AVATARS[lvl] || AVATARS[0];
 
       const glowByLevel = [0.06, 0.12, 0.20, 0.32, 0.45, 0.60];
-      avatarBlock.style.setProperty("--pGlow", String(glowByLevel[avLvl] ?? 0.08));
+      avatarBlock.style.setProperty("--pGlow", String(glowByLevel[lvl] ?? 0.08));
 
-      // Streakbar
+      streakCounter.textContent = `STREAK: ${streak} DAYS`;
+      if(todayTotal >= GOAL){
+        streakMini.textContent = "Locked in. Your streak stays strong.";
+      } else {
+        streakMini.textContent = "Complete 100 today to keep your power.";
+      }
+
       const cap = nextStreakCap(streak);
+      streakNow.textContent = streak;
+      streakCap.textContent = cap;
       const prog = cap === 0 ? 0 : Math.min(1, streak / cap);
-      streakBoostText.textContent = streak;
-      streakCapText.textContent = cap;
-      streakCapLabel.textContent = `Top at ${cap}`;
       streakFill.style.width = `${Math.round(prog * 100)}%`;
     }
 
@@ -793,9 +942,11 @@
         calGrid.appendChild(el);
       }
 
-      const firstLogged = Object.keys(state.days).sort()[0] || null;
+      const keys = Object.keys(state.days).sort();
+      const firstLogged = keys[0] || null;
+
       const first = new Date(y, m, 1);
-      const firstDow = (first.getDay() + 6) % 7;
+      const firstDow = (first.getDay() + 6) % 7; // Monday=0
       const daysInMonth = new Date(y, m + 1, 0).getDate();
       const todayIso = toISODateLocal(new Date());
 
@@ -807,7 +958,7 @@
         calGrid.appendChild(ghost);
       }
 
-      // streak chain
+      // streak chain for glow strip
       const streakChain = new Set();
       {
         const d = new Date();
@@ -826,8 +977,9 @@
         const total = getDayTotal(iso);
 
         let cls = "day";
-        if(!firstLogged || iso < firstLogged) cls += " before";
-        else{
+        if(!firstLogged || iso < firstLogged){
+          cls += " before";
+        } else {
           if(total >= GOAL) cls += " done";
           else if(total > 0) cls += " started";
           else cls += " missed";
@@ -842,10 +994,6 @@
           <div class="daynum">${dayNum}</div>
           <div class="dayval">${total ? total : ""}</div>
         `;
-
-        // minimal: no day modal now (keeps it simple)
-        cell.classList.add("off");
-
         calGrid.appendChild(cell);
       }
     }
@@ -855,13 +1003,23 @@
       renderCalendar();
     }
 
-    // Events: quick add
+    // ===== Events =====
+    clickBtn.addEventListener("click", (e)=>{
+      const rect = clickerWrap.getBoundingClientRect();
+      rippleAt(e.clientX - rect.left, e.clientY - rect.top);
+      addReps(1);
+    });
+
     document.querySelectorAll("[data-add]").forEach(btn=>{
-      btn.addEventListener("click", ()=>{
+      btn.addEventListener("click", (e)=>{
+        const rect = clickerWrap.getBoundingClientRect();
+        rippleAt(e.clientX - rect.left, e.clientY - rect.top);
         const n = Number(btn.getAttribute("data-add"));
         addReps(n);
       });
     });
+
+    undoBtn.addEventListener("click", undoLast);
 
     prevMonthBtn.addEventListener("click", ()=>{
       currentMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth()-1, 1);
@@ -877,28 +1035,23 @@
       renderAll();
     });
 
-    // Init titles (random)
-    function pickTitle(){
-      return TITLES[Math.floor(Math.random() * TITLES.length)];
-    }
+    // ===== Init titles =====
     const t = pickTitle();
     loadingTitle.textContent = t;
     heroTitle.textContent = t;
 
     renderAll();
 
-    // Loading animation
+    // ===== Loading animation =====
     function runLoading(){
       const durationMs = 820;
       const start = performance.now();
-
       function tick(now){
         const t = Math.min(1, (now - start) / durationMs);
         const eased = 1 - Math.pow(1 - t, 3);
         loadingCount.textContent = Math.round(eased * 100);
         if(t < 1) requestAnimationFrame(tick);
       }
-
       requestAnimationFrame(tick);
       setTimeout(() => loading.classList.add("hidden"), 1050);
     }
@@ -906,5 +1059,6 @@
   </script>
 </body>
 </html>
+
 
 
